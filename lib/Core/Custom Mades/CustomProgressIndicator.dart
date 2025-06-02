@@ -1,0 +1,16 @@
+import "package:flutter/material.dart";
+import "package:flutter_spinkit/flutter_spinkit.dart";
+
+import "../AppColors.dart";
+
+class CustomProgressIndicator extends StatelessWidget {
+  const CustomProgressIndicator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SpinKitThreeBounce(
+      size: 20,
+      color: AppColors.blueColor,
+    );
+  }
+}
