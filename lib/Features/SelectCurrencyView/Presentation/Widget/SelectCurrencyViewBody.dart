@@ -4,8 +4,7 @@ import "package:flutter_svg/flutter_svg.dart";
 import "package:fundflow/Core/AppColors.dart";
 import "package:fundflow/Core/AppFonts.dart";
 import "package:fundflow/Core/AppRouter.dart";
-import "package:fundflow/Features/SelectCurrencyView/Presentation/Widget/SelectCurrencyButton.dart";
-import "package:fundflow/Features/SelectCurrencyView/Presentation/Widget/WarningMessage.dart";
+import "package:fundflow/Core/buttons.dart";
 import "package:go_router/go_router.dart";
 import "package:hive_flutter/hive_flutter.dart";
 
@@ -20,7 +19,7 @@ class SelectCurrencyViewBody extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: kPadding30,
+            padding: kPadding15,
             child: Column(
               children: [
                 Expanded(
@@ -30,13 +29,13 @@ class SelectCurrencyViewBody extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Select a currency to continue with:",
-                  style: AppFonts.font18Bold,
+                  "Select currency to continue with",
+                  style: AppTextStyles.headline3(context),
+                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 15),
-                const WarningMessage(),
                 const Spacer(),
-                SelectCurrencyButton(
+                AppButton.main(
+                  context,
                   onPressed: () {
                     showCurrencyPicker(
                       context: context,
@@ -46,14 +45,14 @@ class SelectCurrencyViewBody extends StatelessWidget {
                             contentPadding: kPaddingLR12,
                             focusedBorder: OutlineInputBorder(
                               borderRadius: kBr10,
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 width: 2,
                                 color: AppColors.blueColor,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: kBr10,
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: AppColors.greyColor,
                               ),
                             ),
@@ -66,13 +65,16 @@ class SelectCurrencyViewBody extends StatelessWidget {
                         currencyBox.put(kCurrency, currency.code);
                         await Future.delayed(
                           const Duration(seconds: 1),
-                          () => GoRouter.of(context)
-                              .pushReplacement(AppRouter.homeView),
+                          () {
+                            if (!context.mounted) return;
+                            GoRouter.of(context)
+                                .pushReplacement(AppRouter.homeView);
+                          },
                         );
                       },
                     );
                   },
-                  title: "Select a currency",
+                  text: "Select a currency",
                 ),
               ],
             ),

@@ -26,6 +26,18 @@ class AppTextStyles {
         fontFamily: "Quicksand",
       );
 
+  static TextStyle headline3(BuildContext context) =>
+      Theme.of(context).textTheme.headlineSmall?.copyWith(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            fontFamily: "Quicksand",
+          ) ??
+      const TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        fontFamily: "Quicksand",
+      );
+
   static TextStyle bodyLarge(BuildContext context) =>
       Theme.of(context).textTheme.bodyLarge?.copyWith(
             fontSize: 18,
