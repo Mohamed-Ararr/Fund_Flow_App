@@ -16,12 +16,12 @@ class HomeViewBody extends StatelessWidget {
         elevation: 0,
         title: const AppTitleFromHomeView(),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               TopHeadlineContainer(),
               SizedBox(height: 20),
               BodyFeatures(),

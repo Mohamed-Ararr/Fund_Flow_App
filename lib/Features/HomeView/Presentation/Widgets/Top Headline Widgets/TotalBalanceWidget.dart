@@ -22,7 +22,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Current total balance",
+                "Current balance",
                 style: AppFonts.userWelcomeStyle16,
               ),
               const SizedBox(height: 5),

@@ -28,12 +28,13 @@ class OnboardingDetails extends StatelessWidget {
           const SizedBox(height: 30),
           Text(
             title,
-            style: AppFonts.font22Bold,
+            style: AppTextStyles.headline2(context),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 5),
           Text(
             subTitle,
-            style: AppFonts.font14BoldLightGrey,
+            style: AppTextStyles.bodyMedium(context),
             textAlign: TextAlign.center,
           ),
         ],

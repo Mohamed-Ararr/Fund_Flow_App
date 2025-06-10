@@ -1,6 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:fundflow/Core/AppColors.dart';
 
+class AppTextStyles {
+  static TextStyle headline1(BuildContext context) =>
+      Theme.of(context).textTheme.headlineLarge?.copyWith(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            fontFamily: "Quicksand",
+          ) ??
+      const TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        fontFamily: "Quicksand",
+      );
+
+  static TextStyle headline2(BuildContext context) =>
+      Theme.of(context).textTheme.headlineMedium?.copyWith(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            fontFamily: "Quicksand",
+          ) ??
+      const TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.bold,
+        fontFamily: "Quicksand",
+      );
+
+  static TextStyle bodyLarge(BuildContext context) =>
+      Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: 18,
+            fontWeight: FontWeight.normal,
+            fontFamily: "Quicksand",
+          ) ??
+      const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.normal,
+        fontFamily: "Quicksand",
+      );
+
+  static TextStyle bodyMedium(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            fontFamily: "Quicksand",
+          ) ??
+      const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        fontFamily: "Quicksand",
+      );
+
+  static TextStyle caption(BuildContext context) =>
+      Theme.of(context).textTheme.labelSmall?.copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            fontFamily: "Quicksand",
+          ) ??
+      const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.normal,
+        fontFamily: "Quicksand",
+      );
+
+  static TextStyle buttonText(BuildContext context) =>
+      Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            fontFamily: "Quicksand",
+          ) ??
+      const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        fontFamily: "Quicksand",
+      );
+}
+
 class AppFonts {
   static TextStyle appTitleStyle = const TextStyle(
     fontSize: 40,
@@ -22,6 +96,7 @@ class AppFonts {
   static TextStyle userWelcomeStyle16 = const TextStyle(
     fontSize: 16,
     color: Colors.white70,
+    fontWeight: FontWeight.w600,
   );
 
   static TextStyle font11Bold = const TextStyle(
@@ -29,13 +104,13 @@ class AppFonts {
     fontWeight: FontWeight.bold,
   );
 
-  static TextStyle font11BoldLightGrey = TextStyle(
+  static TextStyle font11BoldLightGrey = const TextStyle(
     fontSize: 11,
     fontWeight: FontWeight.bold,
     color: AppColors.greyColor,
   );
 
-  static TextStyle font14BoldLightGrey = TextStyle(
+  static TextStyle font14BoldLightGrey = const TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.bold,
     color: AppColors.greyColor,
@@ -53,7 +128,7 @@ class AppFonts {
     fontWeight: FontWeight.bold,
   );
 
-  static TextStyle font12White = TextStyle(
+  static TextStyle font12White = const TextStyle(
     fontSize: 12,
     color: AppColors.greyColor,
   );

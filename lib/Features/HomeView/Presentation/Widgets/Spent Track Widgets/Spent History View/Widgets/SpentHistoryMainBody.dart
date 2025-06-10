@@ -34,7 +34,7 @@ class SpentHistoryMainBody extends StatelessWidget {
                   const SizedBox(height: 5),
                   DividerAndAddNew(
                     onPressed: () {
-                      showBottomSheet(
+                      showModalBottomSheet(
                         context: context,
                         builder: (context) => AddMoneySpentTrackBottomSheet(
                           spentCardModel: spentCardModel,

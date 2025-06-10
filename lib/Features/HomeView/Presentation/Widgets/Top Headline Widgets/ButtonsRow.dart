@@ -11,36 +11,40 @@ class ButtonsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      spacing: 15,
       children: [
-        SizedBox(
-          height: 40,
-          child: CustomBalanceButton(
-            onPressed: () {
-              showBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) {
-                    return const ChangeBalanceBottomSheet();
-                  });
-            },
-            backgroundColor: AppColors.orangeColor,
-            text: "Top up",
+        Expanded(
+          child: SizedBox(
+            height: 40,
+            child: CustomBalanceButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) {
+                      return const ChangeBalanceBottomSheet();
+                    });
+              },
+              backgroundColor: AppColors.orangeColor,
+              text: "Top up",
+            ),
           ),
         ),
-        SizedBox(
-          height: 40,
-          child: CustomBalanceButton(
-            onPressed: () {
-              showBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) {
-                    return const TransferMoneyBottomSheet();
-                  });
-            },
-            backgroundColor: AppColors.greyColor,
-            text: "Transfer",
+        Expanded(
+          child: SizedBox(
+            height: 40,
+            child: CustomBalanceButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) {
+                      return const TransferMoneyBottomSheet();
+                    });
+              },
+              backgroundColor: AppColors.greyColor,
+              text: "Transfer",
+            ),
           ),
         ),
       ],

@@ -22,7 +22,10 @@ class OnboardingButton extends StatelessWidget {
           fixedSize: Size(MediaQuery.of(context).size.width, 50),
           shape: RoundedRectangleBorder(borderRadius: kBr10),
         ),
-        child: Text(title, style: AppFonts.font18Bold),
+        child: Text(
+          title,
+          style: AppTextStyles.bodyLarge(context),
+        ),
       ),
     );
   }

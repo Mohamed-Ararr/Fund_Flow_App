@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:fundflow/Core/AppColors.dart";
 
 class CustomBalanceButton extends StatelessWidget {
   const CustomBalanceButton(
@@ -17,6 +18,7 @@ class CustomBalanceButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
+        foregroundColor: AppColors.whiteColor,
         backgroundColor: backgroundColor,
         fixedSize: Size(
           MediaQuery.of(context).size.width * 0.4,

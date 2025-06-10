@@ -29,6 +29,8 @@ EdgeInsets kPadding5TB10LR =
 EdgeInsets kMarginRL12 = const EdgeInsets.symmetric(horizontal: 12);
 EdgeInsets kMarginTB5 = const EdgeInsets.symmetric(vertical: 5);
 
+double deviceHeight(context) => MediaQuery.sizeOf(context).height;
+
 const String kUserBox = "accountBox";
 const String kbalanceBox = "balanceBox";
 const String kOnboarding = "kOnboarding";

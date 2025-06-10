@@ -43,7 +43,7 @@ class _CustomPopupOptionSavingPlansState
                 InkWell(
                   onTap: () {
                     controller!.hideMenu();
-                    showBottomSheet(
+                    showModalBottomSheet(
                       context: context,
                       backgroundColor: Colors.transparent,
                       builder: (context) => AddMoneyToSavingPlans(

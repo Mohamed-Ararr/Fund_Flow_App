@@ -40,7 +40,7 @@ class _CustomPopupOptionsState extends State<CustomPopupOptions> {
                 InkWell(
                   onTap: () {
                     controller!.hideMenu();
-                    showBottomSheet(
+                    showModalBottomSheet(
                       backgroundColor: Colors.transparent,
                       context: context,
                       builder: (context) => AddMoneySpentTrackBottomSheet(

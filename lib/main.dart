@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:fundflow/Core/theme.dart";
 import "package:hive_flutter/hive_flutter.dart";
 
 import "ContValues.dart";
@@ -67,10 +68,11 @@ class FundFlow extends StatelessWidget {
       ],
       child: MaterialApp.router(
         routerConfig: AppRouter.routes,
-        theme: ThemeData(
-          fontFamily: "Quicksand",
-          canvasColor: AppColors.lightGreyColor,
-        ),
+        // theme: ThemeData(
+        //   fontFamily: "Quicksand",
+        //   canvasColor: AppColors.lightGreyColor,
+        // ),
+        theme: lightTheme.copyWith(),
       ),
     );
   }
