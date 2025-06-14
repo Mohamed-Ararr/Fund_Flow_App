@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:fundflow/Core/helper.dart";
 import "package:fundflow/Data/BLoC%20Manager/User%20Cubit/user_cubit.dart";
 
 import "../../../../../ContValues.dart";
@@ -29,7 +30,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                 ),
               ),
               Text(
-                "${state.currentBalance.toStringAsFixed(2)} ${getCurrency()}",
+                "${Helper.formatCurrency(state.currentBalance)} ${getCurrency()}",
                 style: AppTextStyles.headline1(context).copyWith(
                   color: AppColors.whiteColor,
                 ),

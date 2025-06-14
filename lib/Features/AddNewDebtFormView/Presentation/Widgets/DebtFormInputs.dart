@@ -44,13 +44,6 @@ class _DebtFormInputsState extends State<DebtFormInputs> {
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
-              const SizedBox(height: 15),
-              const Text(
-                "Fill in the form",
-                style: TextStyle(
-                  fontSize: 28,
-                ),
-              ),
               const SizedBox(height: 30),
               CustomSavingTextField(
                 isAddNew: true,

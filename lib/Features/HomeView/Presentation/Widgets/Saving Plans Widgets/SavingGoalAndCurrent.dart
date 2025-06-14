@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:fundflow/Core/helper.dart";
 import "package:fundflow/Data/Models/Saving%20Card%20Model/SavingCardModel.dart";
 
 import "../../../../../ContValues.dart";
@@ -15,11 +16,11 @@ class SavingGoalAndCurrent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "${savingCardModel.currentSaving} ${getCurrency()}",
+          "${Helper.formatCurrency(savingCardModel.currentSaving)} ${getCurrency()}",
           style: AppFonts.font14Bold,
         ),
         Text(
-          "${savingCardModel.savingGoal} ${getCurrency()}",
+          "${Helper.formatCurrency(savingCardModel.savingGoal)} ${getCurrency()}",
           style: AppFonts.font15Bold,
         ),
       ],

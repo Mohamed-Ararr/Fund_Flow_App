@@ -151,7 +151,6 @@ showSnackBarMessage(bool result, bool warning, context, String successMsg,
                 message: warningMsg,
               )
             : CustomSnackBar.success(
-                backgroundColor: Colors.blue,
                 message: successMsg,
               )
         : CustomSnackBar.error(

@@ -20,7 +20,7 @@ class SavingCardInfo extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.grey.shade100,
           borderRadius: kBr15,
         ),
         child: Column(

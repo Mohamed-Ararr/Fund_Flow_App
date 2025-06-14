@@ -60,19 +60,22 @@ class DebtsGridview extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            end: Alignment.topRight,
-                            begin: Alignment.bottomLeft,
-                            colors: state.debtsList[index].isDebt
-                                ? [
-                                    AppColors.blueColor,
-                                    AppColors.lightBlueColor,
-                                  ]
-                                : [
-                                    AppColors.darkOrangeColor,
-                                    AppColors.lightOrangeColor,
-                                  ],
-                          ),
+                          color: state.debtsList[index].isDebt
+                              ? AppColors.blueColor
+                              : AppColors.darkOrangeColor,
+                          // gradient: LinearGradient(
+                          //   end: Alignment.topRight,
+                          //   begin: Alignment.bottomLeft,
+                          //   colors: state.debtsList[index].isDebt
+                          //       ? [
+                          //           AppColors.blueColor,
+                          //           AppColors.lightBlueColor,
+                          //         ]
+                          //       : [
+                          //           AppColors.darkOrangeColor,
+                          //           AppColors.lightOrangeColor,
+                          //         ],
+                          // ),
                           borderRadius: kBr10,
                         ),
                         child: DebtCard(debtCardModel: state.debtsList[index]),

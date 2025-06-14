@@ -29,7 +29,7 @@ class SpentCard extends StatelessWidget {
       child: Container(
         height: 45,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.grey.shade100,
           borderRadius: kBr10,
         ),
         child: Column(

@@ -26,9 +26,9 @@ class CustomDebtDropdown extends StatelessWidget {
         icon: Icon(Icons.keyboard_arrow_down_rounded),
         iconSize: 35,
       ),
-      popupProps: PopupProps.menu(
+      popupProps: const PopupProps.menu(
         menuProps: MenuProps(
-          backgroundColor: AppColors.lightGreyColor,
+          backgroundColor: Colors.white,
         ),
         showSelectedItems: true,
         fit: FlexFit.loose,
@@ -42,13 +42,13 @@ class CustomDebtDropdown extends StatelessWidget {
                 .copyWith(color: const Color.fromARGB(185, 0, 0, 0)),
           ),
           border: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: AppColors.orangeColor,
             ),
             borderRadius: kBr10,
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: AppColors.orangeColor,
             ),
             borderRadius: kBr10,

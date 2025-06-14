@@ -41,18 +41,18 @@ class _ChangeBalanceBottomSheetState extends State<ChangeBalanceBottomSheet> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(15),
-      height: MediaQuery.of(context).size.height * 0.5,
+      // height: MediaQuery.of(context).size.height * 0.5,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: AppColors.greyColor,
         borderRadius: kBrTopLR,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 30,
         children: [
           const DragLineBottomSheet(),
-          const SizedBox(height: 30),
           Text("Top Up Balance", style: AppFonts.font22WhiteBold),
-          const Spacer(),
           Form(
             key: key,
             autovalidateMode: autovalidateMode,
@@ -67,7 +67,7 @@ class _ChangeBalanceBottomSheetState extends State<ChangeBalanceBottomSheet> {
               ],
             ),
           ),
-          const Spacer(),
+          const SizedBox(),
           ConfirmSlider(
             action: (controller) async {
               if (key.currentState!.validate()) {
@@ -90,7 +90,7 @@ class _ChangeBalanceBottomSheetState extends State<ChangeBalanceBottomSheet> {
               }
             },
           ),
-          const Spacer(),
+          const SizedBox(height: 10),
         ],
       ),
     );

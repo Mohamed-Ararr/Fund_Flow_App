@@ -17,11 +17,13 @@ class ButtonsRow extends StatelessWidget {
             context,
             onPressed: () {
               showModalBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) {
-                    return const ChangeBalanceBottomSheet();
-                  });
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) {
+                  return const ChangeBalanceBottomSheet();
+                },
+              );
             },
             backgroundColor: AppColors.orangeColor,
             text: "Top up",

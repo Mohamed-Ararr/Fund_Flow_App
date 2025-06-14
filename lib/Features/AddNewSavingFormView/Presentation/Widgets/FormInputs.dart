@@ -42,13 +42,6 @@ class _FormInputsState extends State<FormInputs> {
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
-              const SizedBox(height: 15),
-              const Text(
-                "Fill in the form",
-                style: TextStyle(
-                  fontSize: 28,
-                ),
-              ),
               const SizedBox(height: 30),
               CustomSavingTextField(
                 isAddNew: true,

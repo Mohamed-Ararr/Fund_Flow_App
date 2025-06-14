@@ -12,6 +12,7 @@ class AddNewSpentFormViewBody extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.blueColor,
+        foregroundColor: AppColors.whiteColor,
         title: const Text("Add New Category"),
       ),
       body: Padding(
