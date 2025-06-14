@@ -41,18 +41,17 @@ class _AddMoneySpentTrackBottomSheetState
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.all(15),
-          height: MediaQuery.of(context).size.height * 0.5,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: AppColors.greyColor,
             borderRadius: kBrTopLR,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 30,
             children: [
               const DragLineBottomSheet(),
-              const SizedBox(height: 30),
               Text("Top Up", style: AppFonts.font22WhiteBold),
-              const Spacer(),
               Form(
                 key: key,
                 autovalidateMode: autovalidateMode,
@@ -76,7 +75,7 @@ class _AddMoneySpentTrackBottomSheetState
                   ],
                 ),
               ),
-              const Spacer(),
+              const SizedBox(),
               ConfirmSlider(
                 action: (controller) async {
                   if (key.currentState!.validate() && amount >= 0.0) {
@@ -117,7 +116,7 @@ class _AddMoneySpentTrackBottomSheetState
                   }
                 },
               ),
-              const Spacer(),
+              const SizedBox(height: 10),
             ],
           ),
         );

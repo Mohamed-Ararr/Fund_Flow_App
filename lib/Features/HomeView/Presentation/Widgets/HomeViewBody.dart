@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
+import "package:fundflow/Core/AppRouter.dart";
 import "package:fundflow/Core/buttons.dart";
 import "package:fundflow/Features/HomeView/Presentation/Widgets/bodyFeatures.dart";
+import "package:go_router/go_router.dart";
 
 import "../../../../Core/AppColors.dart";
 import "../../../../Core/AppFonts.dart";
@@ -29,7 +31,9 @@ class HomeViewBody extends StatelessWidget {
               size: 35,
               color: AppColors.whiteColor,
             ),
-            onPressed: () {},
+            onPressed: () {
+              context.push(AppRouter.historyView);
+            },
           ),
         ],
         centerTitle: false,

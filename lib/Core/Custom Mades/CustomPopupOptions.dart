@@ -43,6 +43,7 @@ class _CustomPopupOptionsState extends State<CustomPopupOptions> {
                     showModalBottomSheet(
                       backgroundColor: Colors.transparent,
                       context: context,
+                      isScrollControlled: true,
                       builder: (context) => AddMoneySpentTrackBottomSheet(
                           spentCardModel: widget.spentCardModel),
                     );
@@ -61,7 +62,7 @@ class _CustomPopupOptionsState extends State<CustomPopupOptions> {
                         shape: RoundedRectangleBorder(
                           borderRadius: kBr10,
                         ),
-                        title: Icon(
+                        title: const Icon(
                           Icons.warning_amber_rounded,
                           color: AppColors.redColor,
                           size: 40,
@@ -105,7 +106,7 @@ class _CustomPopupOptionsState extends State<CustomPopupOptions> {
                         shape: RoundedRectangleBorder(
                           borderRadius: kBr10,
                         ),
-                        title: Icon(
+                        title: const Icon(
                           Icons.warning_amber_rounded,
                           color: AppColors.redColor,
                           size: 40,

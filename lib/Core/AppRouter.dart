@@ -6,6 +6,7 @@ import 'package:fundflow/Data/Models/Spent%20Card%20Model/SpentCardModel.dart';
 import 'package:fundflow/Features/AddNewDebtFormView/Presentation/AddNewDebtFormView.dart';
 import 'package:fundflow/Features/AddNewSavingFormView/Presentation/AddNewSavingFormView.dart';
 import 'package:fundflow/Features/AddNewSpentFormView/Presentation/AddNewSpentFormView.dart';
+import 'package:fundflow/Features/HistoryView/Presentation/HistoryView.dart';
 import 'package:fundflow/Features/HomeView/Presentation/HomeView.dart';
 import 'package:fundflow/Features/HomeView/Presentation/Widgets/Spent%20Track%20Widgets/Spent%20History%20View/SpentHistoryView.dart';
 import 'package:fundflow/Features/OnboardingView/Presentation/OnboardingView.dart';
@@ -22,6 +23,7 @@ class AppRouter {
   static String addNewSavingFormView = "/addNewSavingFormView";
   static String addNewSpentFormView = "/addNewSpentFormView";
   static String addNewDebtFormView = "/addNewDebtFormView";
+  static String historyView = "/historyView";
 
   static final routes = GoRouter(
     routes: <RouteBase>[
@@ -67,6 +69,10 @@ class AppRouter {
               create: (context) => AddNewDebtCubit(),
               child: const AddNewDebtFormView(),
             )),
+      ),
+      GoRoute(
+        path: historyView,
+        builder: ((context, state) => const HistoryView()),
       ),
     ],
   );

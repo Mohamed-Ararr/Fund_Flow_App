@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
+import "package:fundflow/Core/buttons.dart";
 
 import "../../../../../../../Core/AppColors.dart";
-import "../../../../../../../Core/AppFonts.dart";
 
 class DividerAndAddNew extends StatelessWidget {
   const DividerAndAddNew({super.key, this.onPressed});
@@ -12,21 +12,20 @@ class DividerAndAddNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 20,
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.6,
+        const Expanded(
           child: Divider(
-            color: AppColors.darkBlueColor,
-            height: 3,
-            thickness: 1.5,
+            color: AppColors.blueColor,
+            height: 1,
+            thickness: 0.5,
           ),
         ),
-        TextButton(
+        AppButton.text(
+          context,
           onPressed: onPressed,
-          child: Text(
-            "Add new spend",
-            style: AppFonts.font15Bold,
-          ),
+          text: 'New Spend',
+          textColor: AppColors.blueColor,
         ),
       ],
     );

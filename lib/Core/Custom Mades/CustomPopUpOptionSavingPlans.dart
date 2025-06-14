@@ -45,6 +45,7 @@ class _CustomPopupOptionSavingPlansState
                     controller!.hideMenu();
                     showModalBottomSheet(
                       context: context,
+                      isScrollControlled: true,
                       backgroundColor: Colors.transparent,
                       builder: (context) => AddMoneyToSavingPlans(
                         savingCardModel: widget.savingCardModel,

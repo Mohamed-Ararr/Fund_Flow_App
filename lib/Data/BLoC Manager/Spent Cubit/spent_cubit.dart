@@ -5,16 +5,25 @@ import 'package:hive_flutter/hive_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
+import '../../Models/Spent Detail Model/SpentDetailModel.dart';
+
 part 'spent_state.dart';
 
 class SpentCubit extends Cubit<SpentState> {
   SpentCubit() : super(SpentInitial());
+
+  List<SpentDetailModel>? spentL = [];
 
   fetchSpentCards() {
     try {
       emit(SpentLoading());
       Box<SpentCardModel> spentBox = Hive.box<SpentCardModel>(kSpentBox);
       List<SpentCardModel>? spentList = spentBox.values.toList();
+      // Extract and flatten all non-null spentsList entries
+      spentL = spentList
+          .where((card) => card.spentsList != null)
+          .expand((card) => card.spentsList!)
+          .toList();
       emit(SpentSuccess(spentList));
     } on Exception catch (e) {
       emit(SpentFailure(e.toString()));

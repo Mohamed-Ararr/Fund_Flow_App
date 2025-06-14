@@ -18,11 +18,12 @@ class SpentDetailCard extends StatelessWidget {
       padding: kPadding8,
       decoration: BoxDecoration(
         borderRadius: kBr6,
-        gradient: LinearGradient(
-          end: Alignment.topRight,
-          begin: Alignment.bottomLeft,
-          colors: [AppColors.blueColor, AppColors.lightBlueColor],
-        ),
+        color: AppColors.blueColor,
+        // gradient: const LinearGradient(
+        //   end: Alignment.topRight,
+        //   begin: Alignment.bottomLeft,
+        //   colors: [AppColors.blueColor, AppColors.lightBlueColor],
+        // ),
       ),
       child: ListTile(
         iconColor: AppColors.orangeColor,
@@ -32,15 +33,25 @@ class SpentDetailCard extends StatelessWidget {
         ),
         title: Text(
           spentDetailModel.spentDetailTitle!,
-          style: AppFonts.font18Bold,
+          style: AppTextStyles.bodyLarge(context).copyWith(
+            fontWeight: FontWeight.bold,
+            color: AppColors.whiteColor,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(
           spentDetailModel.spentDetailDate!,
-          style: AppFonts.font12Bold,
+          style: AppTextStyles.caption(context).copyWith(
+            color: AppColors.whiteColor,
+          ),
         ),
         trailing: Text(
           "${spentDetailModel.spentDetailAmount} ${getCurrency()}",
-          style: AppFonts.font16Bold,
+          style: AppTextStyles.bodyLarge(context).copyWith(
+            color: AppColors.whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
