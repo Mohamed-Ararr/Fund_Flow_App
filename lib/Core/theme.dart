@@ -8,6 +8,7 @@ import 'AppColors.dart';
 final ThemeData lightTheme = ThemeData.light().copyWith(
   brightness: Brightness.light,
   colorScheme: const ColorScheme.light(
+
       // primary: AppColors.primary,
       // secondary: AppColors.secondary,
       ),

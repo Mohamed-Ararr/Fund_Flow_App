@@ -3,6 +3,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:fundflow/Data/BLoC%20Manager/User%20Cubit/user_cubit.dart";
 
 import "../../../../../ContValues.dart";
+import "../../../../../Core/AppColors.dart";
 import "../../../../../Core/AppFonts.dart";
 
 class TotalBalanceWidget extends StatefulWidget {
@@ -22,24 +23,36 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Current balance",
-                style: AppFonts.userWelcomeStyle16,
+                "Current Balance",
+                style: AppTextStyles.bodyLarge(context).copyWith(
+                  color: AppColors.whiteColor,
+                ),
               ),
-              const SizedBox(height: 5),
-              Row(
-                // crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    state.currentBalance.toStringAsFixed(2),
-                    style: AppFonts.userNameStyle18.copyWith(fontSize: 25),
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    getCurrency(),
-                    style: AppFonts.userWelcomeStyle16.copyWith(fontSize: 12),
-                  ),
-                ],
+              Text(
+                "${state.currentBalance.toStringAsFixed(2)} ${getCurrency()}",
+                style: AppTextStyles.headline1(context).copyWith(
+                  color: AppColors.whiteColor,
+                ),
               ),
+              // Text(
+              //   "Current balance",
+              //   style: AppFonts.userWelcomeStyle16,
+              // ),
+              // const SizedBox(height: 5),
+              // Row(
+              //   // crossAxisAlignment: CrossAxisAlignment.end,
+              //   children: [
+              //     Text(
+              //       state.currentBalance.toStringAsFixed(2),
+              //       style: AppFonts.userNameStyle18.copyWith(fontSize: 25),
+              //     ),
+              //     const SizedBox(width: 5),
+              //     Text(
+              //       getCurrency(),
+              //       style: AppFonts.userWelcomeStyle16.copyWith(fontSize: 12),
+              //     ),
+              //   ],
+              // ),
             ],
           );
         } else if (state is UserFailure) {

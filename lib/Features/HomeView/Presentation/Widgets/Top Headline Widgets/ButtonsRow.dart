@@ -1,8 +1,7 @@
 import "package:flutter/material.dart";
+import "package:fundflow/Core/buttons.dart";
 
 import "../../../../../Core/AppColors.dart";
-import "../../../../../Core/Custom Mades/CustomBalanceButton.dart";
-import "../Bottom Sheets Widgets/TransferMoneyBottomSheet.dart";
 import '../Bottom Sheets Widgets/ChangeBalanceBottomSheet.dart';
 
 class ButtonsRow extends StatelessWidget {
@@ -14,39 +13,36 @@ class ButtonsRow extends StatelessWidget {
       spacing: 15,
       children: [
         Expanded(
-          child: SizedBox(
-            height: 40,
-            child: CustomBalanceButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) {
-                      return const ChangeBalanceBottomSheet();
-                    });
-              },
-              backgroundColor: AppColors.orangeColor,
-              text: "Top up",
-            ),
+          child: AppButton.main(
+            context,
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) {
+                    return const ChangeBalanceBottomSheet();
+                  });
+            },
+            backgroundColor: AppColors.orangeColor,
+            text: "Top up",
           ),
         ),
-        Expanded(
-          child: SizedBox(
-            height: 40,
-            child: CustomBalanceButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) {
-                      return const TransferMoneyBottomSheet();
-                    });
-              },
-              backgroundColor: AppColors.greyColor,
-              text: "Transfer",
-            ),
-          ),
-        ),
+        // Expanded(
+        //   child: AppButton.sec(
+        //     context,
+        //     onPressed: () {
+        //       showModalBottomSheet(
+        //           context: context,
+        //           backgroundColor: Colors.transparent,
+        //           builder: (context) {
+        //             return const TransferMoneyBottomSheet();
+        //           });
+        //     },
+        //     backgroundColor: AppColors.orangeColor,
+        //     textColor: AppColors.orangeColor,
+        //     text: "History",
+        //   ),
+        // ),
       ],
     );
   }

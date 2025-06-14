@@ -5,7 +5,6 @@ import "package:fundflow/Core/theme.dart";
 import "package:hive_flutter/hive_flutter.dart";
 
 import "ContValues.dart";
-import "Core/AppColors.dart";
 import "Core/AppRouter.dart";
 import "Data/BLoC Manager/Debt Cubit/debt_cubit.dart";
 import "Data/BLoC Manager/Saving Cubit/saving_cubit.dart";

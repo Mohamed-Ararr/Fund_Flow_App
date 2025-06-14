@@ -2,7 +2,9 @@ import "package:flutter/material.dart";
 import "package:fundflow/Core/AppRouter.dart";
 import "package:go_router/go_router.dart";
 
+import "../../../../../Core/AppColors.dart";
 import "../../../../../Core/AppFonts.dart";
+import "../../../../../Core/buttons.dart";
 
 class DebtsAndAddNew extends StatelessWidget {
   const DebtsAndAddNew({super.key});
@@ -13,11 +15,13 @@ class DebtsAndAddNew extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Debts & Credits", style: AppFonts.sectionTitleStyle),
-        TextButton(
+        AppButton.text(
+          context,
+          text: "New Transaction",
+          textColor: AppColors.blueColor,
           onPressed: () {
             GoRouter.of(context).push(AppRouter.addNewDebtFormView);
           },
-          child: Text("Add new transaction", style: AppFonts.font12Bold),
         ),
       ],
     );

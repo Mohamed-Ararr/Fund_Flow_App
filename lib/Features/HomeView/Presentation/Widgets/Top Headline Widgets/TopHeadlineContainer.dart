@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
+import "package:fundflow/Features/HomeView/Presentation/Widgets/Top%20Headline%20Widgets/TotalBalanceWidget.dart";
 
-import "../../../../../ContValues.dart";
 import "../../../../../Core/AppColors.dart";
 import "ButtonsRow.dart";
-import "TotalBalanceWidget.dart";
-import "WelcomeRow.dart";
 
 class TopHeadlineContainer extends StatelessWidget {
-  const TopHeadlineContainer({super.key});
+  const TopHeadlineContainer({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,49 +38,26 @@ class TopHeadlineContainer extends StatelessWidget {
     //     ],
     //   ),
     // );
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: Colors.deepPurple,
+    return const Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
+      color: AppColors.blueColor,
       elevation: 4,
+      shadowColor: AppColors.darkBlueColor,
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Hello, Robert 👋",
-                style: TextStyle(color: Colors.white70)),
-            const SizedBox(height: 10),
-            const Text("Current Balance",
-                style: TextStyle(color: Colors.white54)),
-            const Text("\$12,560.00",
-                style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold)),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.arrow_upward),
-                  label: const Text("Top Up"),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.deepPurple,
-                  ),
-                ),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.sync_alt),
-                  label: const Text("Transfer"),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.deepPurple,
-                  ),
-                ),
-              ],
-            )
+            TotalBalanceWidget(),
+            SizedBox(height: 20),
+            ButtonsRow(),
+            SizedBox(height: 10),
           ],
         ),
       ),

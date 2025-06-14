@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:fundflow/Core/AppColors.dart";
+import "package:fundflow/Core/buttons.dart";
 import "package:go_router/go_router.dart";
 
 import "../../../../../Core/AppFonts.dart";
@@ -13,14 +15,13 @@ class SpentsAndAddNew extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Spend Track", style: AppFonts.sectionTitleStyle),
-        TextButton(
+        AppButton.text(
+          context,
+          text: "New Spend",
+          textColor: AppColors.blueColor,
           onPressed: () {
             GoRouter.of(context).push(AppRouter.addNewSpentFormView);
           },
-          child: Text(
-            "Add new category",
-            style: AppFonts.font12Bold,
-          ),
         ),
       ],
     );
