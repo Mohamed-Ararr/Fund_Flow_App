@@ -1,8 +1,5 @@
 import "package:flutter/material.dart";
-import "package:fundflow/Core/AppRouter.dart";
-import "package:fundflow/Core/buttons.dart";
 import "package:fundflow/Features/HomeView/Presentation/Widgets/bodyFeatures.dart";
-import "package:go_router/go_router.dart";
 
 import "../../../../Core/AppColors.dart";
 import "../../../../Core/AppFonts.dart";
@@ -22,20 +19,21 @@ class HomeViewBody extends StatelessWidget {
             color: AppColors.whiteColor,
           ),
         ),
+        automaticallyImplyLeading: false,
         scrolledUnderElevation: 0,
-        actions: [
-          AppButton.icon(
-            context,
-            icon: const Icon(
-              Icons.history,
-              size: 35,
-              color: AppColors.whiteColor,
-            ),
-            onPressed: () {
-              context.push(AppRouter.historyView);
-            },
-          ),
-        ],
+        // actions: [
+        // AppButton.icon(
+        //   context,
+        //   icon: const Icon(
+        //     Icons.history,
+        //     size: 35,
+        //     color: AppColors.whiteColor,
+        //   ),
+        //   onPressed: () {
+        //     context.push(AppRouter.historyView);
+        //   },
+        // ),
+        // ],
         centerTitle: false,
         elevation: 0,
       ),

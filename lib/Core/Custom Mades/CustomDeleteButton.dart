@@ -11,7 +11,7 @@ class CustomDeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
-      icon: Icon(
+      icon: const Icon(
         Icons.delete_outline,
         size: 30,
         color: AppColors.redColor,

@@ -22,7 +22,7 @@ class CustomActionForSlidable extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: kBr10,
             ),
-            title: Icon(
+            title: const Icon(
               Icons.warning_amber_rounded,
               color: AppColors.redColor,
               size: 40,

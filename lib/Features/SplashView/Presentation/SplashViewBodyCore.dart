@@ -7,11 +7,11 @@ class SplashViewBodyCore extends StatelessWidget {
   const SplashViewBodyCore({super.key});
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Spacer(flex: 3),
             SplashImage(),
             Spacer(flex: 2),

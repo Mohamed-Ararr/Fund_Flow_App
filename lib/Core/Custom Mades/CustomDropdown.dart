@@ -33,7 +33,7 @@ class CustomDropdown extends StatelessWidget {
               icon: Icon(Icons.keyboard_arrow_down_rounded),
               iconSize: 35,
             ),
-            popupProps: PopupProps.dialog(
+            popupProps: const PopupProps.dialog(
               dialogProps: DialogProps(
                 backgroundColor: AppColors.lightGreyColor,
               ),
@@ -52,13 +52,13 @@ class CustomDropdown extends StatelessWidget {
                   ),
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: AppColors.orangeColor,
                   ),
                   borderRadius: kBr10,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: AppColors.orangeColor,
                   ),
                   borderRadius: kBr10,

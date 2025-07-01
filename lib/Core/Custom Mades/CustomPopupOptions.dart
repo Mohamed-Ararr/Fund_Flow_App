@@ -44,8 +44,18 @@ class _CustomPopupOptionsState extends State<CustomPopupOptions> {
                       backgroundColor: Colors.transparent,
                       context: context,
                       isScrollControlled: true,
-                      builder: (context) => AddMoneySpentTrackBottomSheet(
-                          spentCardModel: widget.spentCardModel),
+                      builder: (context) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          child: SingleChildScrollView(
+                            child: AddMoneySpentTrackBottomSheet(
+                              spentCardModel: widget.spentCardModel,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                   child: const CustomOptionRow(

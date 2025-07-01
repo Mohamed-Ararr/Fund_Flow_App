@@ -47,9 +47,18 @@ class _CustomPopupOptionSavingPlansState
                       context: context,
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
-                      builder: (context) => AddMoneyToSavingPlans(
-                        savingCardModel: widget.savingCardModel,
-                      ),
+                      builder: (context) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          child: SingleChildScrollView(
+                            child: AddMoneyToSavingPlans(
+                              savingCardModel: widget.savingCardModel,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                   child: const CustomOptionRow(
@@ -66,7 +75,7 @@ class _CustomPopupOptionSavingPlansState
                         shape: RoundedRectangleBorder(
                           borderRadius: kBr10,
                         ),
-                        title: Icon(
+                        title: const Icon(
                           Icons.warning_amber_rounded,
                           color: AppColors.redColor,
                           size: 40,
@@ -108,6 +117,7 @@ class _CustomPopupOptionSavingPlansState
                         shape: RoundedRectangleBorder(
                           borderRadius: kBr10,
                         ),
+                        // ignore: prefer_const_constructors
                         title: Icon(
                           Icons.warning_amber_rounded,
                           color: AppColors.redColor,

@@ -21,7 +21,14 @@ class ButtonsRow extends StatelessWidget {
                 isScrollControlled: true,
                 backgroundColor: Colors.transparent,
                 builder: (context) {
-                  return const ChangeBalanceBottomSheet();
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                    ),
+                    child: const SingleChildScrollView(
+                      child: ChangeBalanceBottomSheet(),
+                    ),
+                  );
                 },
               );
             },

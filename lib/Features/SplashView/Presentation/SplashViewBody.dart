@@ -20,6 +20,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     dynamic isSeen = boardingBox.get(kOnboarding);
     Future.delayed(
       const Duration(milliseconds: 2000),
+      // ignore: use_build_context_synchronously
       () => GoRouter.of(context).pushReplacement(
         isSeen == null || isSeen == false
             ? AppRouter.onBoardingView
@@ -31,9 +32,9 @@ class _SplashViewBodyState extends State<SplashViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.blueColor,
-      body: const SplashViewBodyCore(),
+      body: SplashViewBodyCore(),
     );
   }
 }

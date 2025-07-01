@@ -42,13 +42,13 @@ class CustomSavingTextField extends StatelessWidget {
           ),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.orangeColor,
           ),
           borderRadius: kBr10,
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.orangeColor,
           ),
           borderRadius: kBr10,

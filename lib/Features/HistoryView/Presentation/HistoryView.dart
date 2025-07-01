@@ -20,7 +20,7 @@ class HistoryView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: kPadding15,
-        child: Column(
+        child: const Column(
           children: [
             SpentsList(),
           ],
