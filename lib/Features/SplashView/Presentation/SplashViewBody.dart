@@ -20,7 +20,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     dynamic isSeen = boardingBox.get(kOnboarding);
     Future.delayed(
       const Duration(milliseconds: 2000),
-      // ignore: use_build_context_synchronously
+      // ignore: use_build_context_synchronousl
       () => GoRouter.of(context).pushReplacement(
         isSeen == null || isSeen == false
             ? AppRouter.onBoardingView
