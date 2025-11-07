@@ -12,7 +12,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       // primary: AppColors.primary,
       // secondary: AppColors.secondary,
       ),
-  cardTheme: CardTheme(
+  cardTheme: CardThemeData(
     elevation: 2.5, // Controls the shadow intensity (default is 1)
     shadowColor:
         AppColors.greyColor.withValues(alpha: 0.5), // Custom shadow color

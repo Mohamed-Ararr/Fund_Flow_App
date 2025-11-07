@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
+
 class Helper {
+  static double width(context) => MediaQuery.sizeOf(context).width;
   static String formatCurrency(double? value) {
     if (value == null) {
       return "0.00";
