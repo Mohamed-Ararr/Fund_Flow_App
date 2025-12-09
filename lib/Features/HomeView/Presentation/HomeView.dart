@@ -1,12 +1,13 @@
 import "package:flutter/material.dart";
 
-import "Widgets/HomeViewBody.dart";
+import "NewHomeViewBody.dart";
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const HomeViewBody();
+    return const NewHomeViewBody();
+    // return const HomeViewBody();
   }
 }

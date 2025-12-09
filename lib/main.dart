@@ -2,14 +2,18 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:fundflow/Core/theme.dart";
+import "package:fundflow/Data/Models/TransactionModel/TransactionModel.dart";
 import "package:hive_flutter/hive_flutter.dart";
 
 import "ContValues.dart";
 import "Core/AppRouter.dart";
+import "Data/BLoC Manager/Add New Debt Cubit/add_new_debt_cubit.dart";
 import "Data/BLoC Manager/Debt Cubit/debt_cubit.dart";
 import "Data/BLoC Manager/Saving Cubit/saving_cubit.dart";
 import "Data/BLoC Manager/Spent Cubit/spent_cubit.dart";
+import "Data/BLoC Manager/Transaction Cubit/transaction_cubit.dart";
 import "Data/BLoC Manager/User Cubit/user_cubit.dart";
+import "Data/Models/BalanceEntryModel/BalanceEntryModel.dart";
 import "Data/Models/Debt Card Model/DebtCardModel.dart";
 import "Data/Models/Saving Card Model/SavingCardModel.dart";
 import "Data/Models/Spent Card Model/SpentCardModel.dart";
@@ -23,9 +27,17 @@ main() async {
   await Hive.openBox<bool>(kOnboarding);
   // SELECTED CURRENCY BOX
   await Hive.openBox<String>(kCurrency);
+  // SELECTED CURRENCY CODE BOX
+  await Hive.openBox<String>(kCurrencyCode);
+  // TRANSACTION DETAIL BOX
+  Hive.registerAdapter(TransactionModelAdapter());
+  await Hive.openBox<TransactionModel>(kTransaction);
   // SPENT DETAIL BOX
   Hive.registerAdapter(SpentDetailModelAdapter());
   await Hive.openBox<SpentDetailModel>(kSpentDetailBox);
+  // BALANCE HISTORY BOX
+  Hive.registerAdapter(BalanceEntryModelAdapter());
+  await Hive.openBox<BalanceEntryModel>(kbalanceHistoryBox);
   // SPENT TRACK BOX
   Hive.registerAdapter(SpentCardModelAdapter());
   await Hive.openBox<SpentCardModel>(kSpentBox);
@@ -53,7 +65,11 @@ class FundFlow extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => UserCubit()..fetchUserBalance(),
+          create: (context) => UserCubit()..fetchUserBalanceNew(),
+          // create: (context) => UserCubit()..fetchUserBalance(),
+        ),
+        BlocProvider(
+          create: (context) => TransactionCubit()..init(),
         ),
         BlocProvider(
           create: (context) => SpentCubit()..fetchSpentCards(),
@@ -63,6 +79,9 @@ class FundFlow extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => DebtCubit()..fetchDebtCards(),
+        ),
+        BlocProvider(
+          create: (context) => AddNewDebtCubit(),
         ),
       ],
       child: MaterialApp.router(

@@ -14,7 +14,7 @@ class DebtCubit extends Cubit<DebtState> {
     try {
       emit(DebtLoading());
       Box<DebtCardModel> debtBox = Hive.box<DebtCardModel>(kDebtBox);
-      List<DebtCardModel> debtsList = debtBox.values.toList();
+      List<DebtCardModel> debtsList = debtBox.values.toList().reversed.toList();
       emit(DebtSuccess(debtsList));
     } catch (e) {
       emit(DebtFailure(e.toString()));

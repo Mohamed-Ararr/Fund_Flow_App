@@ -33,8 +33,11 @@ double deviceHeight(context) => MediaQuery.sizeOf(context).height;
 
 const String kUserBox = "accountBox";
 const String kbalanceBox = "balanceBox";
+const String kbalanceHistoryBox = 'balanceHistoryBox'; // New Box for charts
 const String kOnboarding = "kOnboarding";
 const String kCurrency = "kCurrency";
+const String kCurrencyCode = "kCurrencyCode";
+const String kTransaction = "kTransaction";
 const String kSpentBox = "kSpentBox";
 const String kSpentDetailBox = "kSpentDetailBox";
 const String kSpentCardsListBox = "kSpentCardsListBox";
@@ -171,6 +174,12 @@ sliderFailureOperation(ActionSliderController controller) async {
 }
 
 String getCurrency() {
+  Box currencyBox = Hive.box<String>(kCurrencyCode);
+  String selectedCurrency = currencyBox.get(kCurrencyCode);
+  return selectedCurrency;
+}
+
+String getCurrencySymbol() {
   Box currencyBox = Hive.box<String>(kCurrency);
   String selectedCurrency = currencyBox.get(kCurrency);
   return selectedCurrency;

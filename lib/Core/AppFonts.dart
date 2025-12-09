@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fundflow/Core/AppColors.dart';
 
+@deprecated
 class AppTextStyles {
   static TextStyle headline1(BuildContext context) =>
       Theme.of(context).textTheme.headlineLarge?.copyWith(

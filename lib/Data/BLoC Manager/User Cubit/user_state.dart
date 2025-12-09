@@ -13,6 +13,13 @@ class UserSuccess extends UserState {
   UserSuccess(this.currentBalance);
 }
 
+class UserSuccessNew extends UserState {
+  final double currentBalance;
+  final List<BalanceEntryModel>? history;
+
+  UserSuccessNew({required this.currentBalance, this.history});
+}
+
 class UserFailure extends UserState {
   final String errorMsg;
 

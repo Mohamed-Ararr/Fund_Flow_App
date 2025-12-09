@@ -16,7 +16,7 @@ class BulletDot extends StatelessWidget {
       height: 8,
       width: currentInd == index ? 35 : 8,
       decoration: BoxDecoration(
-        color: AppColors.lightBlueColor,
+        color: AppColors.blueColor,
         borderRadius: kBrHalf,
       ),
     );

@@ -62,13 +62,14 @@ class SelectCurrencyViewBody extends StatelessWidget {
                       currencyFilter: currencyList,
                       onSelect: (currency) async {
                         Box currencyBox = Hive.box<String>(kCurrency);
-                        currencyBox.put(kCurrency, currency.code);
+                        Box currencyCodeBox = Hive.box<String>(kCurrencyCode);
+                        currencyBox.put(kCurrency, currency.symbol);
+                        currencyCodeBox.put(kCurrencyCode, currency.code);
                         await Future.delayed(
                           const Duration(seconds: 1),
                           () {
                             if (!context.mounted) return;
-                            GoRouter.of(context)
-                                .pushReplacement(AppRouter.homeView);
+                            GoRouter.of(context).go(AppRouter.pinCode);
                           },
                         );
                       },

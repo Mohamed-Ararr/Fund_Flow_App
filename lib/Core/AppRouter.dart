@@ -14,6 +14,12 @@ import 'package:fundflow/Features/SelectCurrencyView/Presentation/SelectCurrency
 import 'package:fundflow/Features/SplashView/Presentation/SplashView.dart';
 import 'package:go_router/go_router.dart';
 
+import '../Features/HomeView/Presentation/NewComponents/LogNewEntry.dart';
+import '../Features/PinCode/PinCode.dart';
+import '../Features/SeeAllDebts/SeeAllDebts.dart';
+import '../Features/SeeAllTransactions/SeeAllTransactions.dart';
+import '../Features/SettingsScreen/SettingsScreen.dart';
+
 class AppRouter {
   static String homeView = "/homeView";
   static String spentHistoryView = "/spentHistoryView";
@@ -24,6 +30,13 @@ class AppRouter {
   static String addNewSpentFormView = "/addNewSpentFormView";
   static String addNewDebtFormView = "/addNewDebtFormView";
   static String historyView = "/historyView";
+
+  // NEW UPDATES ROUTES
+  static String logNewEntry = "/logNewEntry";
+  static String seeAllTransactions = "/seeAllTransactions";
+  static String seeAllDebts = "/seeAllDebts";
+  static String settingsScreen = "/settingsScreen";
+  static String pinCode = "/pinCode";
 
   static final routes = GoRouter(
     routes: <RouteBase>[
@@ -73,6 +86,28 @@ class AppRouter {
       GoRoute(
         path: historyView,
         builder: ((context, state) => const HistoryView()),
+      ),
+
+      // NEW UPDATES ROUTES
+      GoRoute(
+        path: logNewEntry,
+        builder: ((context, state) => const LogNewEntryView()),
+      ),
+      GoRoute(
+        path: seeAllTransactions,
+        builder: ((context, state) => const SeeAllTransactions()),
+      ),
+      GoRoute(
+        path: seeAllDebts,
+        builder: ((context, state) => const SeeAllDebts()),
+      ),
+      GoRoute(
+        path: settingsScreen,
+        builder: ((context, state) => const SettingsScreen()),
+      ),
+      GoRoute(
+        path: pinCode,
+        builder: ((context, state) => const PinCode()),
       ),
     ],
   );

@@ -2,9 +2,10 @@ import "package:flutter/material.dart";
 import "package:fundflow/ContValues.dart";
 import "package:fundflow/Core/AppColors.dart";
 import "package:fundflow/Core/AppRouter.dart";
-import "package:fundflow/Features/SplashView/Presentation/SplashViewBodyCore.dart";
 import "package:go_router/go_router.dart";
 import "package:hive_flutter/hive_flutter.dart";
+
+import "SplashViewBodyCore.dart";
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -19,12 +20,12 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     Box boardingBox = Hive.box<bool>(kOnboarding);
     dynamic isSeen = boardingBox.get(kOnboarding);
     Future.delayed(
-      const Duration(milliseconds: 2000),
-      // ignore: use_build_context_synchronousl
+      const Duration(seconds: 2),
+      // ignore: use_build_context_synchronously
       () => GoRouter.of(context).pushReplacement(
         isSeen == null || isSeen == false
             ? AppRouter.onBoardingView
-            : AppRouter.homeView,
+            : AppRouter.pinCode,
       ),
     );
     super.initState();
