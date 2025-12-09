@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fundflow/Features/InsightsFeature/widgets/MonthSummary.dart';
 
 import '../../Core/AppColors.dart';
+import 'widgets/SpendingTrends.dart';
 
 class InsightsView extends StatelessWidget {
   const InsightsView({super.key});
@@ -49,145 +50,15 @@ class InsightsView extends StatelessWidget {
             const SizedBox(height: 20),
             const MonthSummary(),
             const SizedBox(height: 20),
-            const _SpendingTrendsSection(),
+            const SpendingTrendsSection(),
             const SizedBox(height: 20),
             const _CategoriesBreakdownSection(),
             const SizedBox(height: 20),
             const _BottomDetailSection(),
-            const SizedBox(height: 30), // Bottom padding
           ],
         ),
       ),
     );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// SECTION 1: THIS MONTH SUMMARY (GRID)
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// SECTION 2: SPENDING TRENDS (CHART)
-// ---------------------------------------------------------------------------
-class _SpendingTrendsSection extends StatelessWidget {
-  const _SpendingTrendsSection();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(
-                width: 80, // Constrain width for wrapping
-                child: Text(
-                  'Spending Trends',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.darkText,
-                    height: 1.1,
-                  ),
-                ),
-              ),
-              // Segment Control Mockup
-              Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.lightGreyColor),
-                ),
-                child: Row(
-                  children: [
-                    _buildTab('Daily', true),
-                    _buildTab('Weekly', false),
-                    _buildTab('Monthly', false),
-                  ],
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 20),
-          // Custom Bar Chart
-          Container(
-            height: 200,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.whiteColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const _CustomBarChart(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTab(String text, bool isSelected) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: isSelected ? AppColors.blueColor : Colors.transparent,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: isSelected ? Colors.white : AppColors.greyColor,
-        ),
-      ),
-    );
-  }
-}
-
-class _CustomBarChart extends StatelessWidget {
-  const _CustomBarChart();
-
-  @override
-  Widget build(BuildContext context) {
-    final data = [0.4, 0.3, 0.55, 0.7, 0.6, 0.8, 0.5]; // Normalized 0.0 to 1.0
-    final labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-    return LayoutBuilder(builder: (context, constraints) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: List.generate(data.length, (index) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                width: 28, // Bar width
-                height: constraints.maxHeight * 0.8 * data[index],
-                decoration: BoxDecoration(
-                  color: AppColors.orangeColor,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                labels[index],
-                style: const TextStyle(
-                  fontSize: 10,
-                  color: AppColors.primaryDark,
-                ),
-              ),
-            ],
-          );
-        }),
-      );
-    });
   }
 }
 
@@ -202,7 +73,7 @@ class _CategoriesBreakdownSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color: AppColors.lightGreyColor.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -402,7 +273,7 @@ class _DetailSummaryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color: AppColors.lightGreyColor.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
