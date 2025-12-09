@@ -11,26 +11,13 @@ import '../../Core/AppTextStyles.dart';
 import '../../Core/Custom Mades/CustomEmptyList.dart';
 import '../../Core/Custom Mades/CustomProgressIndicator.dart';
 import '../../Core/buttons.dart';
+import '../../Core/helper.dart';
 import '../../Core/popup.dart';
 import '../../Data/BLoC Manager/Transaction Cubit/transaction_cubit.dart';
 import '../../Data/BLoC Manager/User Cubit/user_cubit.dart';
-import '../../Data/Models/TransactionModel/TransactionModel.dart';
 
 class SeeAllTransactions extends StatelessWidget {
   const SeeAllTransactions({super.key});
-
-  totalTransaction(List<TransactionModel>? transactions) {
-    if (transactions == null || transactions.isEmpty) {
-      return 0.0;
-    }
-    double total = 0.0;
-    for (var transaction in transactions) {
-      total += transaction.spentAmount ?? 0.0;
-    }
-    final String formattedAmount =
-        '-${getCurrencySymbol()} ${total.abs().toStringAsFixed(2)}';
-    return formattedAmount;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +55,7 @@ class SeeAllTransactions extends StatelessWidget {
                           color: AppColors.lightGreyColor,
                         )),
                         Text(
-                          '${totalTransaction(state.transactions)} ',
+                          '${Helper.totalTransaction(state.transactions)} ',
                           style: AppTextStyles.headerSectionTitle,
                         )
                       ],

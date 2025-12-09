@@ -45,8 +45,8 @@ class SeeAllDebts extends StatelessWidget {
                         title: state.debtsList[index].title,
                         subtitle: state.debtsList[index].date,
                         amount: state.debtsList[index].isDebt
-                            ? state.debtsList[index].amount
-                            : (state.debtsList[index].amount * -1),
+                            ? (state.debtsList[index].amount * -1)
+                            : state.debtsList[index].amount,
                         icon: FontAwesomeIcons.moneyBill,
                         onTap: () {
                           Popup.showBottom(
@@ -104,11 +104,11 @@ class SeeAllDebts extends StatelessWidget {
                                                   box.get(kbalanceBox) ?? 0.0;
                                               double newBalance =
                                                   state.debtsList[index].isDebt
-                                                      ? (oldBalance -
+                                                      ? (oldBalance +
                                                           (state
                                                               .debtsList[index]
                                                               .amount))
-                                                      : (oldBalance +
+                                                      : (oldBalance -
                                                           (state
                                                               .debtsList[index]
                                                               .amount));

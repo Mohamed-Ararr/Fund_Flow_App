@@ -221,7 +221,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
           title: title,
           amount: amount,
           date: date,
-          isDebt: _selectedDebtType?.toLowerCase() == 'loan' ? true : false,
+          isDebt: _selectedDebtType?.toLowerCase() == 'loan' ? false : true,
           isPaid: false,
         );
         BlocProvider.of<AddNewDebtCubit>(context).addNewDebtCard(debtCardModel);

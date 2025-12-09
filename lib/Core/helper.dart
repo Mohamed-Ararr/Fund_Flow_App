@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fundflow/Data/Models/Debt%20Card%20Model/DebtCardModel.dart';
+
+import '../ContValues.dart';
+import '../Data/Models/TransactionModel/TransactionModel.dart';
 
 class Helper {
   static double width(context) => MediaQuery.sizeOf(context).width;
@@ -65,5 +69,48 @@ class Helper {
         // Fallback solid question mark
         return FontAwesomeIcons.question;
     }
+  }
+
+  static totalTransaction(List<TransactionModel>? transactions) {
+    if (transactions == null || transactions.isEmpty) {
+      return '-${getCurrencySymbol()} 0';
+    }
+    double total = 0.0;
+    for (var transaction in transactions) {
+      total += transaction.spentAmount ?? 0.0;
+    }
+    final String formattedAmount =
+        '-${getCurrencySymbol()} ${total.abs().toStringAsFixed(2)}';
+    return formattedAmount;
+  }
+
+  static totalDebts(List<DebtCardModel>? debts) {
+    if (debts == null || debts.isEmpty) {
+      return '-${getCurrencySymbol()} 0';
+    }
+    double total = 0.0;
+    for (var debt in debts) {
+      if (debt.isDebt) {
+        total += debt.amount;
+      }
+    }
+    final String formattedAmount =
+        '-${getCurrencySymbol()} ${total.abs().toStringAsFixed(2)}';
+    return formattedAmount;
+  }
+
+  static totalCredits(List<DebtCardModel>? credits) {
+    if (credits == null || credits.isEmpty) {
+      return '${getCurrencySymbol()} 0';
+    }
+    double total = 0.0;
+    for (var credit in credits) {
+      if (!credit.isDebt) {
+        total += credit.amount;
+      }
+    }
+    final String formattedAmount =
+        '${getCurrencySymbol()} ${total.abs().toStringAsFixed(2)}';
+    return formattedAmount;
   }
 }
