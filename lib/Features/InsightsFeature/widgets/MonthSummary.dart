@@ -42,8 +42,8 @@ class MonthSummary extends StatelessWidget {
                     builder: (context, debtState) {
                       // Calculate totals safely
                       String totalSpending = '';
-                      String totalCredits = '';
-                      String totalDebts = '';
+                      // String totalCredits = '';
+                      // String totalDebts = '';
                       String netBalance = '';
 
                       if (uState is UserSuccessNew) {
@@ -54,10 +54,10 @@ class MonthSummary extends StatelessWidget {
                         totalSpending =
                             Helper.totalTransaction(txState.transactions);
                       }
-                      if (debtState is DebtSuccess) {
-                        totalCredits = Helper.totalCredits(debtState.debtsList);
-                        totalDebts = Helper.totalDebts(debtState.debtsList);
-                      }
+                      // if (debtState is DebtSuccess) {
+                      //   totalCredits = Helper.totalCredits(debtState.debtsList);
+                      //   totalDebts = Helper.totalDebts(debtState.debtsList);
+                      // }
 
                       return Column(
                         children: [
@@ -87,33 +87,33 @@ class MonthSummary extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
+                          // const SizedBox(height: 12),
                           // Bottom row: Debts & Net Balance
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _SummaryCard(
-                                  title: 'Debts',
-                                  amount: totalDebts,
-                                  subtitle: '+8% from last month',
-                                  amountColor: AppColors.warningOrange,
-                                  icon: Icons.arrow_upward,
-                                  isTrendingUp: false,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _SummaryCard(
-                                  title: 'Credits',
-                                  amount: totalCredits,
-                                  subtitle: '-3% from last month',
-                                  amountColor: AppColors.successTeal,
-                                  icon: Icons.arrow_downward,
-                                  isTrendingUp: true,
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: _SummaryCard(
+                          //         title: 'Debts',
+                          //         amount: totalDebts,
+                          //         subtitle: '+8% from last month',
+                          //         amountColor: AppColors.warningOrange,
+                          //         icon: Icons.arrow_upward,
+                          //         isTrendingUp: false,
+                          //       ),
+                          //     ),
+                          //     const SizedBox(width: 12),
+                          //     Expanded(
+                          //       child: _SummaryCard(
+                          //         title: 'Credits',
+                          //         amount: totalCredits,
+                          //         subtitle: '-3% from last month',
+                          //         amountColor: AppColors.successTeal,
+                          //         icon: Icons.arrow_downward,
+                          //         isTrendingUp: true,
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       );
                     },
@@ -147,6 +147,8 @@ class _SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final compactAmount = Helper.compactCurrencyString(amount);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -184,23 +186,34 @@ class _SummaryCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            amount,
-            style: TextStyle(
-              color: amountColor,
+
+          /// ✅ Compact + Tooltip + Safe Layout
+          Tooltip(
+            decoration: BoxDecoration(
+              color: AppColors.darkText.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            constraints: const BoxConstraints(minHeight: 40),
+            preferBelow: false,
+            textStyle: const TextStyle(
+              color: AppColors.whiteColor,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
+            triggerMode: TooltipTriggerMode.tap,
+            message: amount, // full value
+            child: Text(
+              amount,
+              // compactAmount,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: amountColor,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          const SizedBox(height: 4),
-          // Text(
-          //   subtitle,
-          //   style: const TextStyle(
-          //     color: AppColors.greyColor,
-          //     fontSize: 11,
-          //     height: 1.2,
-          //   ),
-          // ),
         ],
       ),
     );

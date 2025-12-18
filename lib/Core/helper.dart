@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fundflow/Data/Models/Debt%20Card%20Model/DebtCardModel.dart';
 
 import '../ContValues.dart';
+import '../Data/Models/CategoryStatus.dart';
 import '../Data/Models/TransactionModel/TransactionModel.dart';
 
 class Helper {
@@ -113,4 +114,114 @@ class Helper {
         '${getCurrencySymbol()} ${total.abs().toStringAsFixed(2)}';
     return formattedAmount;
   }
+
+  static DateTime parse(String dateStr) {
+    final parts = dateStr.split('/'); // dd/mm/yyyy
+    return DateTime(
+        int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
+  }
+
+  static String weekdayShort(int weekday) {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return days[weekday - 1];
+  }
+
+  static String monthShort(int month) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    return months[month - 1];
+  }
+
+  static List<CategoryStats> calculateCategoryBreakdown(
+    List<TransactionModel> transactions,
+  ) {
+    // 1. Initialize all categories with 0
+    final Map<String, double> totals = {
+      for (final ctg in categories) ctg: 0.0,
+    };
+
+    // 2. Sum transactions into predefined categories
+    for (final tx in transactions) {
+      final category = tx.desc; // or tx.category later
+      final amount = tx.spentAmount ?? 0;
+
+      if (category != null && totals.containsKey(category)) {
+        totals[category] = totals[category]! + amount;
+      }
+    }
+
+    // 3. Calculate grand total
+    final double grandTotal =
+        totals.values.fold(0.0, (sum, value) => sum + value);
+
+    // 4. Build stats (never empty, percentages safe)
+    return categories.map((ctg) {
+      final total = totals[ctg]!;
+      final percentage = grandTotal == 0 ? 0.0 : total / grandTotal;
+
+      return CategoryStats(
+        category: ctg,
+        total: total,
+        percentage: percentage.abs(),
+      );
+    }).toList();
+  }
+
+  static String compactCurrencyString(String rawAmount) {
+    if (rawAmount.trim().isEmpty) return rawAmount;
+
+    final trimmed = rawAmount.trim();
+
+    // 1️⃣ Extract number (with optional minus)
+    final numberMatch = RegExp(r'-?\d+(\.\d+)?').firstMatch(trimmed);
+    if (numberMatch == null) return rawAmount;
+
+    final value = double.tryParse(numberMatch.group(0)!);
+    if (value == null) return rawAmount;
+
+    // 2️⃣ Extract prefix & suffix (currency position)
+    final start = numberMatch.start;
+    final end = numberMatch.end;
+
+    final prefix = trimmed.substring(0, start).trim();
+    final suffix = trimmed.substring(end).trim();
+
+    // 3️⃣ Compact number
+    final absValue = value.abs();
+    String compact;
+
+    if (absValue >= 1e9) {
+      compact = '${(absValue / 1e9).toStringAsFixed(2)} B';
+    } else if (absValue >= 1e6) {
+      compact = '${(absValue / 1e6).toStringAsFixed(2)} M';
+    } else if (absValue >= 1e3) {
+      compact = '${(absValue / 1e3).toStringAsFixed(2)} K';
+    } else {
+      compact = absValue.toStringAsFixed(2);
+    }
+
+    final sign = value < 0 ? '-' : '';
+
+    // 4️⃣ Rebuild string (currency stays in original place)
+    if (suffix.isNotEmpty) {
+      // number FIRST → currency after
+      return '$sign$compact $suffix';
+    } else {
+      // currency FIRST → number after
+      return '$sign$prefix$compact';
+    }
+  }
+  // compact = "${absValue.toStringAsFixed(2)} ${getCurrencySymbol()}";
 }

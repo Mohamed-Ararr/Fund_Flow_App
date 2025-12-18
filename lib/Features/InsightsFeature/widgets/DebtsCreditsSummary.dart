@@ -1,0 +1,156 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fundflow/ContValues.dart';
+import 'package:fundflow/Core/helper.dart';
+
+import '../../../Core/AppColors.dart';
+import '../../../Data/BLoC Manager/Debt Cubit/debt_cubit.dart';
+
+class DebtCreditsSummary extends StatelessWidget {
+  const DebtCreditsSummary({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DebtCubit, DebtState>(
+      builder: (context, state) {
+        if (state is DebtLoading || state is DebtInitial) {
+          return Row(
+            children: [
+              Expanded(
+                child: _DetailSummaryCard(
+                  title: 'Debts',
+                  totalAmount: '-${getCurrencySymbol()} 0.00',
+                  mainColor: AppColors.redColor,
+                  icon: Icons.arrow_upward,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _DetailSummaryCard(
+                  title: 'Credits',
+                  totalAmount: '${getCurrencySymbol()} 0.00',
+                  mainColor: AppColors.successTeal,
+                  icon: Icons.arrow_downward,
+                ),
+              ),
+            ],
+          );
+        }
+
+        if (state is DebtFailure) {
+          return const SizedBox(); // or error UI
+        }
+
+        if (state is DebtSuccess) {
+          final debts = state.debtsList;
+
+          return Row(
+            children: [
+              Expanded(
+                child: _DetailSummaryCard(
+                  title: 'Debts',
+                  totalAmount: Helper.totalDebts(debts),
+                  mainColor: AppColors.redColor,
+                  icon: Icons.arrow_upward,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _DetailSummaryCard(
+                  title: 'Credits',
+                  totalAmount: Helper.totalCredits(debts),
+                  mainColor: AppColors.successTeal,
+                  icon: Icons.arrow_downward,
+                ),
+              ),
+            ],
+          );
+        }
+
+        return const SizedBox();
+      },
+    );
+  }
+}
+
+class _DetailSummaryCard extends StatelessWidget {
+  final String title;
+  final String totalAmount;
+  final Color mainColor;
+  final IconData icon;
+
+  const _DetailSummaryCard({
+    required this.title,
+    required this.totalAmount,
+    required this.mainColor,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.lightGreyColor.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 16, color: mainColor),
+              const SizedBox(width: 4),
+              Text(
+                title,
+                style: TextStyle(
+                  color: mainColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Tooltip(
+            decoration: BoxDecoration(
+              color: AppColors.darkText.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            constraints: const BoxConstraints(minHeight: 40),
+            preferBelow: false,
+            textStyle: const TextStyle(
+              color: AppColors.whiteColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            triggerMode: TooltipTriggerMode.tap,
+            message: totalAmount, // full value
+            child: Text(
+              totalAmount,
+              // compactAmount,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: mainColor,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: 1,
+              backgroundColor:
+                  AppColors.lightGreyColor.withValues(alpha: 0.5), // Darker bg
+              valueColor: AlwaysStoppedAnimation<Color>(mainColor),
+              minHeight: 6,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

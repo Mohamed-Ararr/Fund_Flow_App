@@ -4,6 +4,7 @@ import 'package:fundflow/ContValues.dart';
 import 'package:fundflow/Data/BLoC%20Manager/Transaction%20Cubit/transaction_cubit.dart';
 
 import '../../../Core/AppColors.dart';
+import '../../../Core/helper.dart';
 import '../../../Data/Models/TransactionModel/TransactionModel.dart';
 
 class SpendingTrendsSection extends StatefulWidget {
@@ -46,9 +47,9 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
                   height: 1.1,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               Container(
-                padding: const EdgeInsets.all(2),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   color: AppColors.whiteColor,
                   borderRadius: BorderRadius.circular(8),
@@ -62,7 +63,7 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
                         onTap: () => setState(() => selectedTab = tab),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                              horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? AppColors.blueColor
@@ -133,75 +134,78 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
   // Helper to prepare chart data based on tab
   Map<String, List<dynamic>> _prepareChartData(
       List<TransactionModel> transactions, String selectedTab) {
+    final now = DateTime.now();
+
     List<double> data = [];
     List<String> labels = [];
 
     if (selectedTab == 'Daily') {
-      final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      for (var day in days) {
+      /// LAST 7 DAYS
+      for (int i = 6; i >= 0; i--) {
+        final date = now.subtract(Duration(days: i));
+        final formatted = "${date.day}/${date.month}/${date.year}";
+
         final total = transactions
-            .where((tx) => _getWeekday(tx.date) == day)
-            .fold<double>(0, (sum, tx) => sum + (tx.spentAmount ?? 0.0));
-        data.add(total.toDouble().abs());
-        labels.add(day);
+            .where((tx) => tx.date == formatted)
+            .fold<double>(0, (sum, tx) => sum + ((tx.spentAmount ?? 0) * -1));
+
+        data.add(total);
+        labels.add(Helper.weekdayShort(date.weekday)); // Mon, Tue, ...
       }
     } else if (selectedTab == 'Weekly') {
-      for (int i = 1; i <= 5; i++) {
-        final total = transactions
-            .where((tx) => _getWeekOfMonth(tx.date) == i)
-            .fold<double>(0, (sum, tx) => sum + (tx.spentAmount ?? 0.0));
+      // Determine the current date
+      final DateTime now = DateTime.now();
+
+      // Determine the start of the week (Monday)
+      DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+
+      // Generate 5 weeks back including current one
+      for (int i = 0; i < 5; i++) {
+        final DateTime weekStart = startOfWeek.subtract(Duration(days: 7 * i));
+        final DateTime weekEnd = weekStart.add(const Duration(days: 6));
+
+        // Filter transactions in this date range
+        final total = transactions.where((tx) {
+          if (tx.date == null) return false;
+
+          final parts = tx.date!.split('/'); // dd/mm/yyyy
+          final day = int.parse(parts[0]);
+          final month = int.parse(parts[1]);
+          final year = int.parse(parts[2]);
+
+          final dt = DateTime(year, month, day);
+
+          return dt.isAfter(weekStart.subtract(const Duration(days: 1))) &&
+              dt.isBefore(weekEnd.add(const Duration(days: 1)));
+        }).fold<double>(0, (sum, tx) => sum + (tx.spentAmount ?? 0.0));
+
+        // Add total
         data.add(total.toDouble().abs());
-        labels.add('W$i');
+
+        // Create label like "Jan 1–7"
+        labels.add(
+            "${Helper.monthShort(weekStart.month)} ${weekStart.day}–${weekEnd.day}");
       }
+
+      // Reverse so oldest week is left-most, current week right-most
+      data = data.reversed.toList();
+      labels = labels.reversed.toList();
     } else if (selectedTab == 'Monthly') {
-      final months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
-      ];
-      for (int i = 1; i <= 12; i++) {
-        final total = transactions
-            .where((tx) => _getMonth(tx.date) == i)
-            .fold<double>(0, (sum, tx) => sum + (tx.spentAmount ?? 0.0));
-        data.add(total.toDouble().abs());
-        labels.add(months[i - 1]);
+      /// LAST 12 MONTHS
+      for (int i = 11; i >= 0; i--) {
+        final date = DateTime(now.year, now.month - i, 1);
+
+        final total = transactions.where((tx) {
+          final d = Helper.parse(tx.date ?? DateTime.now().toString());
+          return d.year == date.year && d.month == date.month;
+        }).fold<double>(0, (sum, tx) => sum + ((tx.spentAmount ?? 0) * -1));
+
+        data.add(total);
+        labels.add(Helper.monthShort(date.month)); // Jan, Feb…
       }
     }
 
-    return {'data': data, 'labels': labels};
-  }
-
-  // Helpers to parse date
-  String _getWeekday(String? dateStr) {
-    if (dateStr == null) return '';
-    final parts = dateStr.split('/'); // dd/mm/yyyy
-    final day = int.parse(parts[0]);
-    final month = int.parse(parts[1]);
-    final year = int.parse(parts[2]);
-    final date = DateTime(year, month, day);
-    return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][date.weekday - 1];
-  }
-
-  int _getWeekOfMonth(String? dateStr) {
-    if (dateStr == null) return 0;
-    final parts = dateStr.split('/');
-    final day = int.parse(parts[0]);
-    return ((day - 1) ~/ 7) + 1; // Week 1, 2, ...
-  }
-
-  int _getMonth(String? dateStr) {
-    if (dateStr == null) return 0;
-    final parts = dateStr.split('/');
-    return int.parse(parts[1]);
+    return {"data": data, "labels": labels};
   }
 }
 

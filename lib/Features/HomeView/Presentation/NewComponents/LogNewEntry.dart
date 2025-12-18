@@ -35,15 +35,6 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
   String? _selectedDebtType; // New state for selected debt
 
   // Essential Categories List
-  final List<String> _categories = [
-    'Housing & Utilities',
-    'Food & Groceries',
-    'Transportation',
-    'Income (Salary, Side-Gigs)',
-    'Personal & Miscellaneous',
-  ];
-
-  // Essential Categories List
   final List<String> _debtTypes = [
     'Lending', // Money you are owed
     'Loan', // Money you owe
@@ -61,7 +52,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
     // Set current date on initialization
     _dateController.text = _formatDate(DateTime.now());
     // Set initial category to the first one for expenses
-    _selectedCategory = _categories[0];
+    _selectedCategory = categories[0];
     // Set initial debt type
     _selectedDebtType = _debtTypes[0];
   }
@@ -73,12 +64,12 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
       // Adjust default category selection based on type
       if (newType == EntryType.income) {
         // Set default to 'Income' for income type
-        _selectedCategory = _categories.firstWhere(
+        _selectedCategory = categories.firstWhere(
             (cat) => cat.startsWith('Income'),
-            orElse: () => _categories[0]);
+            orElse: () => categories[0]);
       } else {
         // Set default to the first expense category for others
-        _selectedCategory = _categories[0];
+        _selectedCategory = categories[0];
       }
       // Debt type will default to the first option 'Lending'
       _selectedDebtType = _debtTypes[0];
@@ -384,7 +375,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                               child: Icon(Icons.arrow_drop_down,
                                   color: AppColors.darkText),
                             ),
-                            items: _categories.map((String category) {
+                            items: categories.map((String category) {
                               return DropdownMenuItem<String>(
                                 value: category,
                                 child: Text(category,

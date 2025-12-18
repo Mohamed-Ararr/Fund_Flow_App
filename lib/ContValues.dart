@@ -50,6 +50,14 @@ const String spentImage = "assets/images/spent-icon.png";
 const String savingImage = "assets/images/saving-plan.png";
 const String emptyListImage = "assets/images/emptyAnimation.json";
 
+final List<String> categories = [
+  'Housing & Utilities',
+  'Food & Groceries',
+  'Transportation',
+  'Personal & Miscellaneous',
+  'Others',
+];
+
 goBackFunction(context) {
   GoRouter.of(context).pop();
 }
