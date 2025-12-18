@@ -164,7 +164,7 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
     }
   }
 
-  Future<void> _showBiometricActivationDialog() async {
+  Future<void> showBiometricActivationDialog() async {
     showDialog(
       context: context,
       barrierDismissible: false,
