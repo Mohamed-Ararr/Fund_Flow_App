@@ -22,10 +22,10 @@ class DebtsCard extends StatelessWidget {
   });
 
   // Determines the color and text style based on the amount's sign
-  TextStyle get _amountTextStyle {
+  TextStyle _amountTextStyle(BuildContext context) {
     return amount >= 0
-        ? AppTextStyles.amountPositive
-        : AppTextStyles.amountNegative;
+        ? AppTextStyles.amountPositive(context)
+        : AppTextStyles.amountNegative(context);
   }
 
   // Determines the icon background color
@@ -78,13 +78,13 @@ class DebtsCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: AppTextStyles.listItemTitle,
+                    style: AppTextStyles.listItemTitle(context),
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2.0),
                   Text(
                     subtitle,
-                    style: AppTextStyles.listItemSubtitle,
+                    style: AppTextStyles.listItemSubtitle(context),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
@@ -94,7 +94,7 @@ class DebtsCard extends StatelessWidget {
             // 3. Amount (Dynamic Style)
             Text(
               formattedAmount,
-              style: _amountTextStyle,
+              style: _amountTextStyle(context),
             ),
           ],
         ),

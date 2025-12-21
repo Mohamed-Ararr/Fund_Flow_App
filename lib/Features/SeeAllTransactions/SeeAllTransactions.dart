@@ -22,10 +22,11 @@ class SeeAllTransactions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Transactions History',
-          style: AppTextStyles.headerSectionTitle,
+          style: AppTextStyles.headerSectionTitle(context),
         ),
       ),
       body: SafeArea(
@@ -41,26 +42,27 @@ class SeeAllTransactions extends StatelessWidget {
               return Column(
                 spacing: 15,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      spacing: 10,
-                      children: [
-                        const Text(
-                          'Total Spent',
-                          style: AppTextStyles.headerSectionTitle,
-                        ),
-                        const Expanded(
-                            child: Divider(
-                          color: AppColors.lightGreyColor,
-                        )),
-                        Text(
-                          '${Helper.totalTransaction(state.transactions)} ',
-                          style: AppTextStyles.headerSectionTitle,
-                        )
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 15),
+                  //   child: Row(
+                  //     spacing: 10,
+                  //     children: [
+                  //       Text(
+                  //         'Total Spent',
+                  //         style: AppTextStyles.headerSectionTitle(context),
+                  //       ),
+                  //       const Expanded(
+                  //           child: Divider(
+                  //         color: AppColors.lightGreyColor,
+                  //       )),
+                  //       Text(
+                  //         '${Helper.totalTransaction(state.transactions)} ',
+                  //         style: AppTextStyles.headerSectionTitle(context),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
+
                   Expanded(
                     child: ListView.separated(
                       itemBuilder: (context, index) => TransactionListItem(
@@ -79,21 +81,25 @@ class SeeAllTransactions extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   spacing: 12,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Transaction Details',
-                                      style: AppTextStyles.headerSectionTitle,
+                                      style: AppTextStyles.headerSectionTitle(
+                                          context),
                                     ),
                                     Text(
                                       'Title: ${state.transactions[index].title ?? 'Unknown'}',
-                                      style: AppTextStyles.listItemTitle,
+                                      style:
+                                          AppTextStyles.listItemTitle(context),
                                     ),
                                     Text(
                                       'Description: ${state.transactions[index].desc ?? 'Unknown'}',
-                                      style: AppTextStyles.listItemTitle,
+                                      style:
+                                          AppTextStyles.listItemTitle(context),
                                     ),
                                     Text(
                                       'Amount: ${state.transactions[index].spentAmount ?? 0.0}',
-                                      style: AppTextStyles.listItemTitle,
+                                      style:
+                                          AppTextStyles.listItemTitle(context),
                                     ),
                                     const SizedBox(height: 10),
                                     Row(

@@ -8,6 +8,8 @@ import '../../Core/AppColors.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Core/AppTextStyles.dart';
+
 class PinCode extends StatefulWidget {
   const PinCode({super.key});
 
@@ -43,21 +45,13 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
     isBiometricsAvailable = await auth.canCheckBiometrics;
 
     if (savedPin == null) {
-      // First-time user
       setState(() {
         isCreatingPin = true;
       });
-    } else {
-      // Returning user
-      setState(() {
-        isCreatingPin = false;
-        isConfirmingPin = false;
-      });
     }
-    if (biometricsEnabled && isBiometricsAvailable) {
-      Future.delayed(const Duration(milliseconds: 400), () {
-        authenticateBiometric();
-      });
+
+    if (biometricsEnabled && isBiometricsAvailable && savedPin != null) {
+      Future.delayed(const Duration(milliseconds: 400), authenticateBiometric);
     }
   }
 
@@ -69,15 +63,13 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
     });
 
     if (pin.length == 6) {
-      Future.delayed(const Duration(milliseconds: 150), () {
-        if (isCreatingPin) {
-          _handleNewPin();
-        } else if (isConfirmingPin) {
-          _handlePinConfirmation();
-        } else {
-          _validateExistingPin();
-        }
-      });
+      if (isCreatingPin) {
+        _handleNewPin();
+      } else if (isConfirmingPin) {
+        _handlePinConfirmation();
+      } else {
+        _validateExistingPin();
+      }
     }
   }
 
@@ -89,7 +81,7 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
     }
   }
 
-  Future<void> _handleNewPin() async {
+  void _handleNewPin() {
     tempNewPin = pin;
     setState(() {
       pin = "";
@@ -105,17 +97,12 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
 
       setState(() {
         pin = "";
+        tempNewPin = "";
+        isConfirmingPin = false;
+        isAuthenticated = true;
       });
-
-      if (isBiometricsAvailable) {
-        // _showBiometricActivationDialog();
-      } else {
-        setState(() => isAuthenticated = true);
-      }
     } else {
-      setState(() {
-        isError = true;
-      });
+      setState(() => isError = true);
 
       Future.delayed(const Duration(milliseconds: 800), () {
         setState(() {
@@ -128,7 +115,9 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
 
   Future<void> _validateExistingPin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String savedPin = prefs.getString("user_pin")!;
+    String? savedPin = prefs.getString("user_pin");
+
+    if (savedPin == null) return; // safeguard
 
     if (pin == savedPin) {
       setState(() => isAuthenticated = true);
@@ -159,7 +148,6 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
         setState(() => isAuthenticated = true);
       }
     } catch (e) {
-      // ToastService.showError(context, '');
       debugPrint("Biometric error: $e");
     }
   }
@@ -204,35 +192,26 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (isAuthenticated) {
-      return const NewHomeViewBody();
-    }
-
+    if (isAuthenticated) return const NewHomeViewBody();
+    final colors = Theme.of(context).colorScheme;
     String title = "Enter your PIN";
-
     if (isCreatingPin) title = "Create a PIN";
     if (isConfirmingPin) title = "Confirm PIN";
 
     return Scaffold(
-      backgroundColor: AppColors.lightGreyColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
             const Spacer(),
-
-            /// TITLE
             Text(
               title,
-              style: const TextStyle(
-                color: AppColors.darkBlueColor,
+              style: AppTextStyles.headerSectionTitle(context).copyWith(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
             ),
-
             const SizedBox(height: 40),
-
-            /// PIN DOTS
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(6, (index) {
@@ -244,50 +223,23 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
                   height: 22,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: filled ? AppColors.primaryDark : Colors.transparent,
+                    color: filled ? colors.primary : Colors.transparent,
                     border: Border.all(
-                      color: AppColors.darkBlueColor,
-                      width: 2,
+                      color: colors.onSurface,
                     ),
                   ),
                 );
               }),
             ),
-
             const SizedBox(height: 20),
-
-            /// ERROR MESSAGE
             if (isError)
-              const Text(
+              Text(
                 "Incorrect PIN. Try again.",
-                style: TextStyle(
-                  color: AppColors.warningOrange,
-                  fontSize: 16,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
               ),
-
-            // const SizedBox(height: 50),
-
-            /// BIOMETRIC ICON
-            // if (!isCreatingPin &&
-            //     !isConfirmingPin &&
-            //     biometricsEnabled &&
-            //     isBiometricsAvailable)
-            //   GestureDetector(
-            //     onTap: authenticateBiometric,
-            //     child: ScaleTransition(
-            //       scale: _pulseAnimation,
-            //       child: const Icon(
-            //         Icons.fingerprint,
-            //         size: 80,
-            //         color: AppColors.lightOrangeColor,
-            //       ),
-            //     ),
-            //   ),
-
             const Spacer(),
-
-            /// KEYPAD
             _buildKeypad(),
             const SizedBox(height: 30),
             if (!isCreatingPin &&
@@ -296,13 +248,12 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
                 isBiometricsAvailable)
               GestureDetector(
                 onTap: authenticateBiometric,
-                child: const Icon(
+                child: Icon(
                   Icons.fingerprint,
                   size: 80,
-                  color: AppColors.primaryDark,
+                  color: colors.primary,
                 ),
               ),
-
             const SizedBox(height: 30),
           ],
         ),
@@ -310,7 +261,6 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
     );
   }
 
-  // ----------------- KEYPAD -----------------------
   Widget _buildKeypad() {
     return Column(
       children: [
@@ -326,12 +276,13 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildKeypadRow(List<String> items) {
+    final colors = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: items.map((value) {
         if (value == "del") {
           return _keypadButton(
-            child: const Icon(Icons.backspace, color: AppColors.darkBlueColor),
+            child: Icon(Icons.backspace_outlined, color: colors.primary),
             onTap: deleteNumber,
           );
         } else if (value == "") {
@@ -340,11 +291,10 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
           return _keypadButton(
             child: Text(
               value,
-              style: const TextStyle(
-                fontSize: 28,
-                color: AppColors.darkBlueColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             onTap: () => enterNumber(value),
           );
@@ -354,6 +304,7 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
   }
 
   Widget _keypadButton({required Widget child, VoidCallback? onTap}) {
+    final colors = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -363,7 +314,7 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: AppColors.darkBlueColor,
+            color: colors.primary,
             width: 1.5,
           ),
         ),

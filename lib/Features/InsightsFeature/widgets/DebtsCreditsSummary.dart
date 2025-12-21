@@ -4,6 +4,7 @@ import 'package:fundflow/ContValues.dart';
 import 'package:fundflow/Core/helper.dart';
 
 import '../../../Core/AppColors.dart';
+import '../../../Core/AppTextStyles.dart';
 import '../../../Data/BLoC Manager/Debt Cubit/debt_cubit.dart';
 
 class DebtCreditsSummary extends StatelessWidget {
@@ -11,6 +12,7 @@ class DebtCreditsSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<DebtCubit, DebtState>(
       builder: (context, state) {
         if (state is DebtLoading || state is DebtInitial) {
@@ -44,24 +46,34 @@ class DebtCreditsSummary extends StatelessWidget {
         if (state is DebtSuccess) {
           final debts = state.debtsList;
 
-          return Row(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: _DetailSummaryCard(
-                  title: 'Debts',
-                  totalAmount: Helper.totalDebts(debts),
-                  mainColor: AppColors.redColor,
-                  icon: Icons.arrow_upward,
-                ),
+              Text(
+                'Debts & Credits Summary',
+                style: theme.textTheme.titleMedium,
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _DetailSummaryCard(
-                  title: 'Credits',
-                  totalAmount: Helper.totalCredits(debts),
-                  mainColor: AppColors.successTeal,
-                  icon: Icons.arrow_downward,
-                ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: _DetailSummaryCard(
+                      title: 'Debts',
+                      totalAmount: Helper.totalDebts(debts),
+                      mainColor: AppColors.darkOrangeColor,
+                      icon: Icons.arrow_upward,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _DetailSummaryCard(
+                      title: 'Credits',
+                      totalAmount: Helper.totalCredits(debts),
+                      mainColor: AppColors.blueColor,
+                      icon: Icons.arrow_downward,
+                    ),
+                  ),
+                ],
               ),
             ],
           );
@@ -88,10 +100,11 @@ class _DetailSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.lightGreyColor.withValues(alpha: 0.5),
+        color: theme.colorScheme.surface.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -114,15 +127,13 @@ class _DetailSummaryCard extends StatelessWidget {
           const SizedBox(height: 8),
           Tooltip(
             decoration: BoxDecoration(
-              color: AppColors.darkText.withValues(alpha: 0.9),
+              color: theme.colorScheme.primary.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(8),
             ),
             constraints: const BoxConstraints(minHeight: 40),
             preferBelow: false,
-            textStyle: const TextStyle(
+            textStyle: AppTextStyles.listItemTitle(context).copyWith(
               color: AppColors.whiteColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
             ),
             triggerMode: TooltipTriggerMode.tap,
             message: totalAmount, // full value

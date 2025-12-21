@@ -12,15 +12,15 @@ class CategoriesBreakdownSection extends StatelessWidget {
   Color categoryColor(String ctg) {
     switch (ctg) {
       case 'Housing & Utilities':
-        return AppColors.orangeColor;
-      case 'Food & Groceries':
         return AppColors.blueColor;
+      case 'Food & Groceries':
+        return Colors.grey;
       case 'Transportation':
-        return AppColors.successTeal;
+        return AppColors.lightOrangeColor;
       case 'Others':
         return AppColors.darkText;
       case 'Personal & Miscellaneous':
-        return AppColors.redColor;
+        return AppColors.warningOrange;
       default:
         return AppColors.greyColor;
     }
@@ -28,6 +28,7 @@ class CategoriesBreakdownSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<TransactionCubit, TransactionState>(
       builder: (context, state) {
         if (state is TransactionLoading) {
@@ -37,37 +38,25 @@ class CategoriesBreakdownSection extends StatelessWidget {
         if (state is TransactionLoaded) {
           final stats = Helper.calculateCategoryBreakdown(state.transactions);
 
-          return Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.lightGreyColor.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Categories Breakdown',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.darkText,
-                  ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Categories Breakdown',
+                style: theme.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 10),
+              ...stats.map(
+                (item) => _CategoryItem(
+                  name: item.category,
+                  amount:
+                      '${getCurrencySymbol()} ${item.total.toStringAsFixed(2)}',
+                  percentage: '${(item.percentage * 100).toStringAsFixed(1)}%',
+                  progress: item.percentage,
+                  color: categoryColor(item.category),
                 ),
-                const SizedBox(height: 16),
-                ...stats.map(
-                  (item) => _CategoryItem(
-                    name: item.category,
-                    amount:
-                        '${getCurrencySymbol()} ${item.total.toStringAsFixed(2)}',
-                    percentage:
-                        '${(item.percentage * 100).toStringAsFixed(1)}%',
-                    progress: item.percentage,
-                    color: categoryColor(item.category),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           );
         }
 
@@ -94,11 +83,12 @@ class _CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -116,18 +106,12 @@ class _CategoryItem extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryDark,
-                ),
+                style: theme.textTheme.bodyMedium,
               ),
               const Spacer(),
               Text(
                 percentage,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryDark,
-                ),
+                style: theme.textTheme.bodyMedium,
               ),
             ],
           ),
@@ -147,11 +131,7 @@ class _CategoryItem extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               amount,
-              style: const TextStyle(
-                color: AppColors.greyColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
+              style: theme.textTheme.bodySmall,
             ),
           ),
         ],

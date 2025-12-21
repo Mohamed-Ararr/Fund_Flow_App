@@ -54,6 +54,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
     // Format the balance to include $ and two decimal places
     // final String formattedBalance = '\$${currentBalance.toStringAsFixed(2)}';
 
+    final colors = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.only(
           top: 16.0, bottom: 24.0, left: 16.0, right: 16.0),
@@ -64,14 +65,14 @@ class _DashboardHeaderState extends State<DashboardHeader> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Hello Again', // Can be customized with user name later
-                style: AppTextStyles.headerSectionTitle,
+                style: AppTextStyles.headerSectionTitle(context),
               ),
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.settings_outlined,
-                  color: AppColors.darkText,
+                  color: colors.onSurface,
                 ),
                 onPressed: () async {
                   bool? refresh =
@@ -92,9 +93,9 @@ class _DashboardHeaderState extends State<DashboardHeader> {
           Center(
             child: Column(
               children: [
-                const Text(
+                Text(
                   'Current Balance',
-                  style: AppTextStyles.uiDetails,
+                  style: AppTextStyles.uiDetails(context),
                 ),
                 GestureDetector(
                   onTap: _toggleBalance,
@@ -113,7 +114,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
                               : ImageFilter.blur(sigmaX: 0, sigmaY: 0),
                           child: Text(
                             formattedBalance,
-                            style: AppTextStyles.focalPointBalance,
+                            style: AppTextStyles.focalPointBalance(context),
                           ),
                         );
                       } else if (state is UserFailure) {
@@ -126,7 +127,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
                 ),
                 Text(
                   getCurrency(),
-                  style: AppTextStyles.uiDetails,
+                  style: AppTextStyles.uiDetails(context),
                 ),
               ],
             ),

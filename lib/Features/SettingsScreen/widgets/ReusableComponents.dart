@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../../Core/AppColors.dart';
-
 class SettingsCard extends StatelessWidget {
   final Widget child;
   const SettingsCard({required this.child, super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.greyColor.withOpacity(0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          )
-        ],
       ),
       child: child,
     );
@@ -42,6 +34,7 @@ class SettingsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
@@ -49,19 +42,23 @@ class SettingsItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14),
         child: Row(
           children: [
-            Icon(icon, size: 22, color: AppColors.darkBlueColor),
+            Icon(icon, size: 22, color: theme.colorScheme.primary),
             const SizedBox(width: 14),
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.darkText),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             trailing ??
-                const Icon(Icons.chevron_right, color: AppColors.greyColor),
+                Icon(
+                  Icons.chevron_right,
+                  size: 25,
+                  color: theme.colorScheme.primary,
+                ),
           ],
         ),
       ),
@@ -85,24 +82,25 @@ class SettingsSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 14),
       child: Row(
         children: [
-          Icon(icon, size: 22, color: AppColors.darkBlueColor),
+          Icon(icon, size: 22, color: theme.colorScheme.primary),
           const SizedBox(width: 14),
           Expanded(
             child: Text(
               title,
-              style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.darkText),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           Switch(
             value: value,
-            activeThumbColor: AppColors.primaryDark,
+            activeThumbColor: theme.colorScheme.primary,
             onChanged: onChanged,
           ),
         ],

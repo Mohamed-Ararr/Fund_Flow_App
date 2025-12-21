@@ -25,6 +25,7 @@ class CustomInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Column(
@@ -39,12 +40,12 @@ class CustomInputField extends StatelessWidget {
             keyboardType: keyboardType,
             readOnly: readOnly,
             onTap: onTap,
-            style: AppTextStyles.listItemTitle,
+            style: AppTextStyles.listItemTitle(context),
             decoration: InputDecoration(
               hintText: label, // Using label as hint text based on video design
-              hintStyle: AppTextStyles.listItemSubtitle,
+              hintStyle: AppTextStyles.listItemSubtitle(context),
               filled: true,
-              fillColor: AppColors.dividerLight.withValues(alpha: 0.5),
+              fillColor: theme.colorScheme.surface,
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
               // Main rounded border

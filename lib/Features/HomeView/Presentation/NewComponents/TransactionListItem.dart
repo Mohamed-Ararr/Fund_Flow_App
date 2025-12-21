@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fundflow/Core/helper.dart';
 
 import '../../../../ContValues.dart';
-import '../../../../Core/AppColors.dart';
 import '../../../../Core/AppTextStyles.dart';
 
 class TransactionListItem extends StatelessWidget {
@@ -21,18 +20,13 @@ class TransactionListItem extends StatelessWidget {
     required this.onTap,
   });
 
-  // Determines the icon background color
-  Color get _iconColor {
-    return AppColors.darkBlueColor;
-    // return amount >= 0 ? AppColors.successTeal : AppColors.warningOrange;
-  }
-
   @override
   Widget build(BuildContext context) {
     // Format the amount string (e.g., adds '$' and keeps two decimal places)
     final String formattedAmount =
         '${amount >= 0 ? '+' : '-'}${getCurrencySymbol()} ${amount.abs().toStringAsFixed(2)}';
-
+    final color = Theme.of(context).colorScheme;
+    final theme = Theme.of(context).textTheme;
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -46,13 +40,13 @@ class TransactionListItem extends StatelessWidget {
               width: 44, // Fixed width
               height: 44, // Fixed height
               decoration: BoxDecoration(
-                color:
-                    _iconColor.withValues(alpha: 0.1), // Light background tint
+                color: color.primary
+                    .withValues(alpha: 0.1), // Light background tint
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Icon(
                 Helper.getCategoryIcon(subtitle),
-                color: _iconColor, // Icon color matches the amount type
+                color: color.primary, // Icon color matches the amount type
                 size: 20.0,
               ),
               // Displaying first letter of the title
@@ -74,13 +68,13 @@ class TransactionListItem extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: AppTextStyles.listItemTitle,
+                    style: AppTextStyles.listItemTitle(context),
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2.0),
                   Text(
                     subtitle,
-                    style: AppTextStyles.listItemSubtitle,
+                    style: AppTextStyles.listItemSubtitle(context),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
@@ -90,10 +84,10 @@ class TransactionListItem extends StatelessWidget {
             // 3. Amount (Dynamic Style)
             Text(
               formattedAmount,
-              style: const TextStyle(
-                fontSize: 16.0,
+              style: theme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.darkBlueColor,
+                fontSize: 19,
+                color: color.primary,
               ),
             ),
           ],

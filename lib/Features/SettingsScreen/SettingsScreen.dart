@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fundflow/Features/SettingsScreen/widgets/AccountAndSecurity.dart';
 
 import '../../Core/AppColors.dart';
+import '../../Core/AppTextStyles.dart';
 import 'widgets/AppSettings.dart';
 import 'widgets/Preferences.dart';
 
@@ -15,35 +16,28 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
+        title: Text(
           "Settings",
-          style: TextStyle(
-            color: AppColors.darkText,
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-          ),
-        ),
-        iconTheme: const IconThemeData(
-          color: AppColors.darkText,
+          style: AppTextStyles.headerSectionTitle(context),
         ),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         children: [
-          const SizedBox(height: 10),
           _sectionTitle("Preferences"),
+          const SizedBox(height: 10),
           const Preferences(),
           const SizedBox(height: 25),
           _sectionTitle("Account & Security"),
+          const SizedBox(height: 10),
           const AccountAndSecurity(),
           const SizedBox(height: 25),
           _sectionTitle("App Settings"),
+          const SizedBox(height: 10),
           const AppSettings(),
 
           const SizedBox(height: 25),
@@ -89,11 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _sectionTitle(String text) {
     return Text(
       text,
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: AppColors.darkText,
-      ),
+      style: AppTextStyles.headerSectionTitle(context),
     );
   }
 }

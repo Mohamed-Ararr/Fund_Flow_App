@@ -59,21 +59,22 @@ class TransactionsList extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               spacing: 12,
                               children: [
-                                const Text(
+                                Text(
                                   'Transaction Details',
-                                  style: AppTextStyles.headerSectionTitle,
+                                  style:
+                                      AppTextStyles.headerSectionTitle(context),
                                 ),
                                 Text(
                                   'Title: ${state.transactions[index].title ?? 'Unknown'}',
-                                  style: AppTextStyles.listItemTitle,
+                                  style: AppTextStyles.listItemTitle(context),
                                 ),
                                 Text(
                                   'Category: ${state.transactions[index].desc ?? 'Unknown'}',
-                                  style: AppTextStyles.listItemTitle,
+                                  style: AppTextStyles.listItemTitle(context),
                                 ),
                                 Text(
                                   'Amount: ${state.transactions[index].spentAmount ?? 0.0}',
-                                  style: AppTextStyles.listItemTitle,
+                                  style: AppTextStyles.listItemTitle(context),
                                 ),
                                 const SizedBox(height: 10),
                                 Row(

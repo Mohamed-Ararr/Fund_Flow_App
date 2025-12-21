@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../Core/AppColors.dart';
-
 class CustomBottomAppBar extends StatefulWidget {
   final Function(int) onTap;
   final int currentIndex;
@@ -19,23 +17,22 @@ class CustomBottomAppBar extends StatefulWidget {
 class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return BottomAppBar(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _item(Icons.home_rounded, 'Home', 0),
-            _item(Icons.bar_chart_rounded, 'Insights', 1),
-          ],
-        ),
+      color: colors.surface,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(child: _item(Icons.home_rounded, 'Home', 0)),
+          Expanded(child: _item(Icons.bar_chart_rounded, 'Insights', 1)),
+        ],
       ),
     );
   }
 
   Widget _item(IconData asset, String text, int index) {
     final isActive = widget.currentIndex == index;
-
+    final colors = Theme.of(context).colorScheme;
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -47,12 +44,20 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
           Icon(
             asset,
             size: 25,
-            color: isActive ? AppColors.primaryDark : Colors.grey,
+            color: isActive
+                ? colors.onSurface
+                : colors.onSurface.withValues(
+                    alpha: 0.3,
+                  ),
           ),
           Text(
             text,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: isActive ? AppColors.primaryDark : Colors.grey,
+                  color: isActive
+                      ? colors.onSurface
+                      : colors.onSurface.withValues(
+                          alpha: 0.3,
+                        ),
                 ),
           )
         ],

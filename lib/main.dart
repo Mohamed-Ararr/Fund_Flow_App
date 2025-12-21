@@ -1,12 +1,13 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:fundflow/Core/theme.dart";
 import "package:fundflow/Data/Models/TransactionModel/TransactionModel.dart";
 import "package:hive_flutter/hive_flutter.dart";
 
 import "ContValues.dart";
 import "Core/AppRouter.dart";
+import "Core/Theme/AppTheme.dart";
+import "Core/Theme/AppThemeController.dart";
 import "Data/BLoC Manager/Add New Debt Cubit/add_new_debt_cubit.dart";
 import "Data/BLoC Manager/Debt Cubit/debt_cubit.dart";
 import "Data/BLoC Manager/Saving Cubit/saving_cubit.dart";
@@ -53,7 +54,7 @@ main() async {
   );
 
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
+  await AppThemeController.init();
   runApp(const FundFlow());
 }
 
@@ -84,13 +85,16 @@ class FundFlow extends StatelessWidget {
           create: (context) => AddNewDebtCubit(),
         ),
       ],
-      child: MaterialApp.router(
-        routerConfig: AppRouter.routes,
-        // theme: ThemeData(
-        //   fontFamily: "Quicksand",
-        //   canvasColor: AppColors.lightGreyColor,
-        // ),
-        theme: lightTheme.copyWith(),
+      child: ValueListenableBuilder(
+        valueListenable: AppThemeController.themeMode,
+        builder: (_, mode, __) {
+          return MaterialApp.router(
+            routerConfig: AppRouter.routes,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: mode,
+          );
+        },
       ),
     );
   }

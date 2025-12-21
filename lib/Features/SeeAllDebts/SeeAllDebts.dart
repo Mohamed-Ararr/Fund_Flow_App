@@ -21,10 +21,11 @@ class SeeAllDebts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Debts & Credits History',
-          style: AppTextStyles.headerSectionTitle,
+          style: AppTextStyles.headerSectionTitle(context),
         ),
       ),
       body: SafeArea(
@@ -61,19 +62,23 @@ class SeeAllDebts extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${state.debtsList[index].isDebt ? 'Debt' : 'Credit'} Details',
-                                      style: AppTextStyles.headerSectionTitle,
+                                      style: AppTextStyles.headerSectionTitle(
+                                          context),
                                     ),
                                     Text(
                                       'Title: ${state.debtsList[index].title}',
-                                      style: AppTextStyles.listItemTitle,
+                                      style:
+                                          AppTextStyles.listItemTitle(context),
                                     ),
                                     Text(
                                       'Date: ${state.debtsList[index].date}',
-                                      style: AppTextStyles.listItemTitle,
+                                      style:
+                                          AppTextStyles.listItemTitle(context),
                                     ),
                                     Text(
                                       'Amount: ${state.debtsList[index].amount}',
-                                      style: AppTextStyles.listItemTitle,
+                                      style:
+                                          AppTextStyles.listItemTitle(context),
                                     ),
                                     const SizedBox(height: 10),
                                     Row(

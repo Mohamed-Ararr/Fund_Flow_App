@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fundflow/Features/InsightsFeature/widgets/MonthSummary.dart';
 
-import '../../Core/AppColors.dart';
 import 'widgets/CategoriesBreakdown.dart';
 import 'widgets/DebtsCreditsSummary.dart';
 import 'widgets/SpendingTrends.dart';
@@ -11,36 +10,33 @@ class InsightsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Row(
               children: [
-                const Text(
+                Text(
                   'Insights',
-                  style: TextStyle(
-                    color: AppColors.darkText,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
+                  style: theme.textTheme.titleLarge,
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                    color: AppColors.lightBlueColor.withValues(alpha: 0.2),
+                    color: theme.colorScheme.primary.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Beta',
-                    style: TextStyle(
-                      color: AppColors.blueColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.primary,
                     ),
                   ),
                 ),

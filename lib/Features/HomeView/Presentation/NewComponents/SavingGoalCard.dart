@@ -84,14 +84,14 @@ class SavingsGoalCard extends StatelessWidget {
                     children: [
                       Text(
                         goalName,
-                        style: AppTextStyles.listItemTitle.copyWith(
+                        style: AppTextStyles.listItemTitle(context).copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 2.0),
                       Text(
                         formattedTarget,
-                        style: AppTextStyles.goalTarget,
+                        style: AppTextStyles.goalTarget(context),
                       ),
                     ],
                   ),
@@ -103,14 +103,14 @@ class SavingsGoalCard extends StatelessWidget {
                   children: [
                     Text(
                       '$percentage%',
-                      style: AppTextStyles.goalPercentage.copyWith(
+                      style: AppTextStyles.goalPercentage(context).copyWith(
                         color: AppColors.successTeal,
                       ),
                     ),
                     const SizedBox(height: 2.0),
                     Text(
                       formattedSaved,
-                      style: AppTextStyles.goalSubAmount,
+                      style: AppTextStyles.goalSubAmount(context),
                     ),
                   ],
                 ),
@@ -140,7 +140,7 @@ class SavingsGoalCard extends StatelessWidget {
                 // Remaining amount text above the bar
                 Text(
                   formattedRemaining,
-                  style: AppTextStyles.goalRemaining.copyWith(
+                  style: AppTextStyles.goalRemaining(context).copyWith(
                     color: AppColors.darkText,
                   ),
                 ),

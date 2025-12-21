@@ -20,6 +20,7 @@ class _NewHomeViewBodyState extends State<NewHomeViewBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: CustomBottomAppBar(
         currentIndex: _currentIndex,
         onTap: (index) {

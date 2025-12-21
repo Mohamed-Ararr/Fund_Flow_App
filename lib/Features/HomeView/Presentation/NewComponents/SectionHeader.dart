@@ -17,6 +17,7 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
     return Padding(
       // Consistent horizontal padding with the dashboard
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -27,7 +28,7 @@ class SectionHeader extends StatelessWidget {
           // 1. Section Title
           Text(
             title,
-            style: AppTextStyles.headerSectionTitle,
+            style: AppTextStyles.headerSectionTitle(context),
           ),
 
           // 2. Action Button (e.g., "View All" or "Manage")
@@ -35,6 +36,7 @@ class SectionHeader extends StatelessWidget {
             context,
             onPressed: onActionTap,
             text: actionText,
+            textColor: color.onSurface,
           ),
         ],
       ),

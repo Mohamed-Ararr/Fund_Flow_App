@@ -21,7 +21,7 @@ class AppButton {
   }) {
     // Default background is now primaryDark (for the "Log New Entry" style)
     final Color defaultBgColor = backgroundColor ?? AppColors.primaryDark;
-    const TextStyle defaultTextStyle = AppTextStyles.buttonPrimary;
+    TextStyle defaultTextStyle = AppTextStyles.buttonPrimary(context);
 
     return ElevatedButton(
       onPressed: isDisabled || isLoading ? null : onPressed,
@@ -90,7 +90,7 @@ class AppButton {
   }) {
     // Default outline is now primaryDark
     final Color defaultOutlineColor = outlineColor ?? AppColors.primaryDark;
-    const TextStyle defaultTextStyle = AppTextStyles.buttonPrimary;
+    TextStyle defaultTextStyle = AppTextStyles.buttonPrimary(context);
 
     return ElevatedButton(
       onPressed: isDisabled || isLoading ? null : onPressed,
@@ -159,7 +159,7 @@ class AppButton {
     EdgeInsetsGeometry? padding,
   }) {
     final Color defaultTextColor = textColor ?? AppColors.darkText;
-    const TextStyle defaultTextStyle = AppTextStyles.listItemTitle;
+    TextStyle defaultTextStyle = AppTextStyles.listItemTitle(context);
 
     return TextButton(
       onPressed: isDisabled || isLoading ? null : onPressed,
@@ -223,7 +223,7 @@ class AppButton {
   }) {
     // Uses the new warningOrange for negative actions
     const Color dangerColor = AppColors.warningOrange;
-    const TextStyle defaultTextStyle = AppTextStyles.buttonPrimary;
+    TextStyle defaultTextStyle = AppTextStyles.buttonPrimary(context);
 
     return ElevatedButton(
       onPressed: isDisabled || isLoading ? null : onPressed,
@@ -285,7 +285,7 @@ class AppButton {
     EdgeInsetsGeometry? padding,
   }) {
     final Color defaultBgColor = backgroundColor ?? AppColors.primaryDark;
-    const TextStyle defaultTextStyle = AppTextStyles.buttonPrimary;
+    TextStyle defaultTextStyle = AppTextStyles.buttonPrimary(context);
 
     return ElevatedButton(
       onPressed: isDisabled || isLoading ? null : onPressed,

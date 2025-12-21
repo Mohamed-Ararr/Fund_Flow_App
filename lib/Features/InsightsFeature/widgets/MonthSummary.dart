@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fundflow/Core/AppColors.dart';
+import 'package:fundflow/Core/AppTextStyles.dart';
 import 'package:fundflow/Core/helper.dart';
 
 import '../../../ContValues.dart';
-import '../../../Core/AppColors.dart';
 import '../../../Data/BLoC Manager/Debt Cubit/debt_cubit.dart';
 import '../../../Data/BLoC Manager/Transaction Cubit/transaction_cubit.dart';
 import '../../../Data/BLoC Manager/User Cubit/user_cubit.dart';
@@ -13,117 +14,106 @@ class MonthSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.lightGreyColor.withValues(alpha: 0.5),
-        // color: AppColors.lightGreyColor.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'This Month Summary',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppColors.darkText,
-            ),
-          ),
-          const SizedBox(height: 16),
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'This Month Summary',
+          style: theme.textTheme.titleMedium,
+        ),
+        const SizedBox(height: 10),
 
-          /// === Using Nested BlocBuilders for MultiBloc ===
-          BlocBuilder<UserCubit, UserState>(
-            builder: (context, uState) {
-              return BlocBuilder<TransactionCubit, TransactionState>(
-                builder: (context, txState) {
-                  return BlocBuilder<DebtCubit, DebtState>(
-                    builder: (context, debtState) {
-                      // Calculate totals safely
-                      String totalSpending = '';
-                      // String totalCredits = '';
-                      // String totalDebts = '';
-                      String netBalance = '';
+        /// === Using Nested BlocBuilders for MultiBloc ===
+        BlocBuilder<UserCubit, UserState>(
+          builder: (context, uState) {
+            return BlocBuilder<TransactionCubit, TransactionState>(
+              builder: (context, txState) {
+                return BlocBuilder<DebtCubit, DebtState>(
+                  builder: (context, debtState) {
+                    // Calculate totals safely
+                    String totalSpending = '';
+                    // String totalCredits = '';
+                    // String totalDebts = '';
+                    String netBalance = '';
 
-                      if (uState is UserSuccessNew) {
-                        netBalance =
-                            '${getCurrencySymbol()} ${uState.currentBalance.abs().toStringAsFixed(2)}';
-                      }
-                      if (txState is TransactionLoaded) {
-                        totalSpending =
-                            Helper.totalTransaction(txState.transactions);
-                      }
-                      // if (debtState is DebtSuccess) {
-                      //   totalCredits = Helper.totalCredits(debtState.debtsList);
-                      //   totalDebts = Helper.totalDebts(debtState.debtsList);
-                      // }
+                    if (uState is UserSuccessNew) {
+                      netBalance =
+                          '${getCurrencySymbol()} ${uState.currentBalance.abs().toStringAsFixed(2)}';
+                    }
+                    if (txState is TransactionLoaded) {
+                      totalSpending =
+                          Helper.totalTransaction(txState.transactions);
+                    }
+                    // if (debtState is DebtSuccess) {
+                    //   totalCredits = Helper.totalCredits(debtState.debtsList);
+                    //   totalDebts = Helper.totalDebts(debtState.debtsList);
+                    // }
 
-                      return Column(
-                        children: [
-                          // Top row: Total Spending & Credits
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _SummaryCard(
-                                  title: 'Net Balance',
-                                  amount: netBalance,
-                                  subtitle: 'Available balance',
-                                  amountColor: AppColors.blueColor,
-                                  icon: Icons.show_chart,
-                                  isTrendingUp: true,
-                                ),
+                    return Column(
+                      children: [
+                        // Top row: Total Spending & Credits
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _SummaryCard(
+                                title: 'Net Balance',
+                                amount: netBalance,
+                                subtitle: 'Available balance',
+                                amountColor: theme.colorScheme.primary,
+                                icon: Icons.show_chart,
+                                isTrendingUp: true,
                               ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _SummaryCard(
-                                  title: 'Total Spending',
-                                  amount: totalSpending,
-                                  subtitle: '+12% from last month',
-                                  amountColor: AppColors.orangeColor,
-                                  icon: Icons.arrow_upward,
-                                  isTrendingUp: false,
-                                ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _SummaryCard(
+                                title: 'Total Spending',
+                                amount: totalSpending,
+                                subtitle: '+12% from last month',
+                                amountColor: AppColors.darkOrangeColor,
+                                icon: Icons.arrow_upward,
+                                isTrendingUp: false,
                               ),
-                            ],
-                          ),
-                          // const SizedBox(height: 12),
-                          // Bottom row: Debts & Net Balance
-                          // Row(
-                          //   children: [
-                          //     Expanded(
-                          //       child: _SummaryCard(
-                          //         title: 'Debts',
-                          //         amount: totalDebts,
-                          //         subtitle: '+8% from last month',
-                          //         amountColor: AppColors.warningOrange,
-                          //         icon: Icons.arrow_upward,
-                          //         isTrendingUp: false,
-                          //       ),
-                          //     ),
-                          //     const SizedBox(width: 12),
-                          //     Expanded(
-                          //       child: _SummaryCard(
-                          //         title: 'Credits',
-                          //         amount: totalCredits,
-                          //         subtitle: '-3% from last month',
-                          //         amountColor: AppColors.successTeal,
-                          //         icon: Icons.arrow_downward,
-                          //         isTrendingUp: true,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
-        ],
-      ),
+                            ),
+                          ],
+                        ),
+                        // const SizedBox(height: 12),
+                        // Bottom row: Debts & Net Balance
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: _SummaryCard(
+                        //         title: 'Debts',
+                        //         amount: totalDebts,
+                        //         subtitle: '+8% from last month',
+                        //         amountColor: AppColors.warningOrange,
+                        //         icon: Icons.arrow_upward,
+                        //         isTrendingUp: false,
+                        //       ),
+                        //     ),
+                        //     const SizedBox(width: 12),
+                        //     Expanded(
+                        //       child: _SummaryCard(
+                        //         title: 'Credits',
+                        //         amount: totalCredits,
+                        //         subtitle: '-3% from last month',
+                        //         amountColor: AppColors.successTeal,
+                        //         icon: Icons.arrow_downward,
+                        //         isTrendingUp: true,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                      ],
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ],
     );
   }
 }
@@ -149,18 +139,12 @@ class _SummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // final compactAmount = Helper.compactCurrencyString(amount);
 
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,17 +155,11 @@ class _SummaryCard extends StatelessWidget {
               Icon(
                 icon,
                 size: 16,
-                color: isTrendingUp
-                    ? AppColors.successTeal
-                    : AppColors.warningOrange,
+                color: amountColor,
               ),
               Text(
                 title,
-                style: const TextStyle(
-                  color: AppColors.primaryDark,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTextStyles.uiDetails(context),
               ),
             ],
           ),
@@ -190,15 +168,13 @@ class _SummaryCard extends StatelessWidget {
           /// ✅ Compact + Tooltip + Safe Layout
           Tooltip(
             decoration: BoxDecoration(
-              color: AppColors.darkText.withValues(alpha: 0.9),
+              color: theme.colorScheme.primary,
               borderRadius: BorderRadius.circular(8),
             ),
             constraints: const BoxConstraints(minHeight: 40),
             preferBelow: false,
-            textStyle: const TextStyle(
+            textStyle: AppTextStyles.listItemTitle(context).copyWith(
               color: AppColors.whiteColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
             ),
             triggerMode: TooltipTriggerMode.tap,
             message: amount, // full value
@@ -207,7 +183,7 @@ class _SummaryCard extends StatelessWidget {
               // compactAmount,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
+              style: theme.textTheme.bodyLarge?.copyWith(
                 color: amountColor,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

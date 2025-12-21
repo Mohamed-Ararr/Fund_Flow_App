@@ -2,10 +2,13 @@ import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fundflow/ContValues.dart';
 import 'package:fundflow/Core/AppColors.dart';
+import 'package:fundflow/Core/AppTextStyles.dart';
 import 'package:fundflow/Core/ToastService.dart';
 import 'package:fundflow/Features/SettingsScreen/widgets/ReusableComponents.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+
+import '../../../Core/Theme/AppThemeController.dart';
 
 class Preferences extends StatefulWidget {
   const Preferences({super.key});
@@ -23,8 +26,10 @@ class _PreferencesState extends State<Preferences> {
           SettingsItem(
             icon: Icons.currency_exchange,
             title: "Currency",
-            trailing: Text(getCurrency(),
-                style: const TextStyle(color: AppColors.darkText)),
+            trailing: Text(
+              getCurrency(),
+              style: AppTextStyles.listItemTitle(context),
+            ),
             onTap: () {
               showCurrencyPicker(
                 context: context,
@@ -70,8 +75,10 @@ class _PreferencesState extends State<Preferences> {
           SettingsItem(
             icon: Icons.language,
             title: "Language",
-            trailing: const Text("English",
-                style: TextStyle(color: AppColors.darkText)),
+            trailing: Text(
+              "English",
+              style: AppTextStyles.listItemTitle(context),
+            ),
             onTap: () {
               ToastService.showInfo(context, 'Feature coming soon!');
             },
@@ -80,9 +87,9 @@ class _PreferencesState extends State<Preferences> {
           SettingsSwitch(
             icon: Icons.dark_mode_outlined,
             title: "Dark Mode",
-            value: false,
+            value: AppThemeController.isDarkMode(),
             onChanged: (value) {
-              ToastService.showInfo(context, 'Feature coming soon!');
+              AppThemeController.toggle(value);
             },
           ),
         ],

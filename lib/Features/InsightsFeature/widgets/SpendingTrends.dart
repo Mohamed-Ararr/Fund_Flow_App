@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fundflow/ContValues.dart';
+import 'package:fundflow/Core/AppTextStyles.dart';
 import 'package:fundflow/Data/BLoC%20Manager/Transaction%20Cubit/transaction_cubit.dart';
 
-import '../../../Core/AppColors.dart';
 import '../../../Core/helper.dart';
 import '../../../Data/Models/TransactionModel/TransactionModel.dart';
 
@@ -26,106 +26,92 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
           transactions = state.transactions;
         }
 
+        final theme = Theme.of(context);
         // Prepare chart data
         final chartMap = _prepareChartData(transactions, selectedTab);
 
-        return Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AppColors.lightGreyColor.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Spending Trends',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.darkText,
-                  height: 1.1,
-                ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Spending Trends',
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(8),
               ),
-              const SizedBox(height: 15),
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.lightGreyColor),
-                ),
-                child: Row(
-                  children: ['Daily', 'Weekly', 'Monthly'].map((tab) {
-                    final isSelected = tab == selectedTab;
-                    return Expanded(
-                      child: GestureDetector(
-                        onTap: () => setState(() => selectedTab = tab),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.blueColor
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            tab,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: isSelected
-                                  ? Colors.white
-                                  : AppColors.greyColor,
-                            ),
+              child: Row(
+                children: ['Daily', 'Weekly', 'Monthly'].map((tab) {
+                  final isSelected = tab == selectedTab;
+                  return Expanded(
+                    child: GestureDetector(
+                      onTap: () => setState(() => selectedTab = tab),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? theme.colorScheme.primary
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          tab,
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.uiDetails(context).copyWith(
+                            color: !isSelected
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.surface,
                           ),
                         ),
                       ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              const SizedBox(height: 10),
-              // Custom Bar Chart
-              Container(
-                height: 210,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: _CustomBarChart(
-                  data: chartMap['data']!.cast<double>(),
-                  labels: chartMap['labels']!.cast<String>(),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 10,
-                  children: [
-                    Container(
-                      width: 10,
-                      height: 10,
-                      decoration: const BoxDecoration(
-                        color: AppColors.orangeColor,
-                        shape: BoxShape.circle,
-                      ),
                     ),
-                    Text(getCurrencySymbol()),
-                  ],
-                ),
+                  );
+                }).toList(),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            // Custom Bar Chart
+            Container(
+              height: 210,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: _CustomBarChart(
+                data: chartMap['data']!.cast<double>(),
+                labels: chartMap['labels']!.cast<String>(),
+              ),
+            ),
+            const SizedBox(height: 5),
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: [
+                  Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  Text(getCurrencySymbol()),
+                ],
+              ),
+            ),
+          ],
         );
       },
     );
@@ -217,6 +203,7 @@ class _CustomBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final isScrollable = labels.length > 7;
 
     // Maximum height for a bar
@@ -245,11 +232,7 @@ class _CustomBarChart extends StatelessWidget {
           // Amount on top of bar
           Text(
             amountText,
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: AppColors.darkText,
-            ),
+            style: theme.textTheme.labelSmall,
           ),
           const SizedBox(height: 4),
           // Bar
@@ -257,7 +240,7 @@ class _CustomBarChart extends StatelessWidget {
             width: 28,
             height: barHeight,
             decoration: BoxDecoration(
-              color: AppColors.orangeColor,
+              color: theme.colorScheme.primary,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -265,9 +248,8 @@ class _CustomBarChart extends StatelessWidget {
           // Label under bar
           Text(
             labels[index],
-            style: const TextStyle(
+            style: theme.textTheme.labelSmall?.copyWith(
               fontSize: 10,
-              color: AppColors.primaryDark,
             ),
           ),
           const SizedBox(height: 4),
@@ -275,8 +257,8 @@ class _CustomBarChart extends StatelessWidget {
           Container(
             width: 6,
             height: 6,
-            decoration: const BoxDecoration(
-              color: AppColors.orangeColor,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary,
               shape: BoxShape.circle,
             ),
           ),

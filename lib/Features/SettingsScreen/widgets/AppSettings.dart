@@ -56,9 +56,9 @@ class AppSettings extends StatelessWidget {
                       spacing: 15,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
+                        Text(
                           'Export As',
-                          style: AppTextStyles.headerSectionTitle,
+                          style: AppTextStyles.headerSectionTitle(context),
                         ),
                         BlocBuilder<TransactionCubit, TransactionState>(
                           builder: (context, state) {

@@ -98,7 +98,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
   Color get _primaryColor {
     switch (_selectedType) {
       case EntryType.expense:
-        return AppColors.warningOrange;
+        return AppColors.darkOrangeColor;
       case EntryType.income:
         return AppColors.successTeal;
       case EntryType.debtCredit:
@@ -242,25 +242,23 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Log New Entry',
-          style: AppTextStyles.headerSectionTitle,
+          style: AppTextStyles.headerSectionTitle(context),
         ),
-        centerTitle: true,
-        backgroundColor: AppColors.whiteColor,
-        elevation: 0,
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
           child: Column(
             children: [
               // 1. Entry Type Toggle Bar (Expense, Income, Debt/Credit)
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: EntryType.values.map((type) {
                   final bool isSelected = _selectedType == type;
                   String text;
@@ -271,7 +269,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                     case EntryType.expense:
                       text = 'Expense';
                       icon = FontAwesomeIcons.minus;
-                      color = AppColors.warningOrange;
+                      color = AppColors.darkOrangeColor;
                       break;
                     case EntryType.income:
                       text = 'Income';
@@ -281,7 +279,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                     case EntryType.debtCredit:
                       text = 'Debt';
                       icon = FontAwesomeIcons.handshake;
-                      color = AppColors.primaryDark;
+                      color = AppColors.greyColor;
                       break;
                   }
 
@@ -297,7 +295,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(10.0),
                           border: Border.all(
-                            color: isSelected ? color : AppColors.dividerLight,
+                            color: isSelected ? color : AppColors.greyColor,
                             width: isSelected ? 1.5 : 1.0,
                           ),
                         ),
@@ -308,10 +306,11 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                             const SizedBox(width: 8),
                             Text(
                               text,
-                              style: AppTextStyles.listItemTitle.copyWith(
+                              style:
+                                  AppTextStyles.listItemTitle(context).copyWith(
                                 fontWeight: isSelected
                                     ? FontWeight.w600
-                                    : FontWeight.w500,
+                                    : FontWeight.w400,
                                 color: color,
                               ),
                             ),
@@ -349,14 +348,14 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: DropdownButtonFormField<String>(
-                            dropdownColor: AppColors.whiteColor,
+                            dropdownColor: theme.colorScheme.surface,
                             initialValue: _selectedCategory,
                             decoration: InputDecoration(
                               hintText: 'Select Category',
-                              hintStyle: AppTextStyles.listItemSubtitle,
+                              hintStyle:
+                                  AppTextStyles.listItemSubtitle(context),
                               filled: true,
-                              fillColor:
-                                  AppColors.dividerLight.withValues(alpha: 0.5),
+                              fillColor: theme.colorScheme.surface,
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 16.0, horizontal: 20.0),
                               border: OutlineInputBorder(
@@ -368,18 +367,20 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                                 borderSide: BorderSide.none,
                               ),
                             ),
-                            style: AppTextStyles.listItemTitle,
+                            style: AppTextStyles.listItemTitle(context),
                             isExpanded: true,
-                            icon: const Padding(
-                              padding: EdgeInsets.only(right: 4.0),
-                              child: Icon(Icons.arrow_drop_down,
-                                  color: AppColors.darkText),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: theme.colorScheme.primary,
                             ),
                             items: categories.map((String category) {
                               return DropdownMenuItem<String>(
                                 value: category,
-                                child: Text(category,
-                                    overflow: TextOverflow.ellipsis),
+                                child: Text(
+                                  category,
+                                  style: AppTextStyles.listItemTitle(context),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               );
                             }).toList(),
                             onChanged: (String? newValue) {
@@ -398,15 +399,15 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: DropdownButtonFormField<String>(
-                            dropdownColor: AppColors.whiteColor,
+                            dropdownColor: theme.colorScheme.surface,
                             initialValue:
                                 _selectedDebtType, // Use value instead of initialValue
                             decoration: InputDecoration(
                               hintText: 'Select Debt Type',
-                              hintStyle: AppTextStyles.listItemSubtitle,
+                              hintStyle:
+                                  AppTextStyles.listItemSubtitle(context),
                               filled: true,
-                              fillColor:
-                                  AppColors.dividerLight.withValues(alpha: 0.5),
+                              fillColor: theme.colorScheme.surface,
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 16.0, horizontal: 20.0),
                               border: OutlineInputBorder(
@@ -418,18 +419,20 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                                 borderSide: BorderSide.none,
                               ),
                             ),
-                            style: AppTextStyles.listItemTitle,
+                            style: AppTextStyles.listItemTitle(context),
                             isExpanded: true,
-                            icon: const Padding(
-                              padding: EdgeInsets.only(right: 4.0),
-                              child: Icon(Icons.arrow_drop_down,
-                                  color: AppColors.darkText),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: theme.colorScheme.primary,
                             ),
                             items: _debtTypes.map((String type) {
                               return DropdownMenuItem<String>(
                                 value: type,
-                                child:
-                                    Text(type, overflow: TextOverflow.ellipsis),
+                                child: Text(
+                                  type,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTextStyles.listItemTitle(context),
+                                ),
                               );
                             }).toList(),
                             onChanged: (String? newValue) {

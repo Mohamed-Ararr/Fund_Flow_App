@@ -69,6 +69,7 @@ class _SplashViewBodyCoreState extends State<SplashViewBodyCore>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -97,9 +98,10 @@ class _SplashViewBodyCoreState extends State<SplashViewBodyCore>
                   const Spacer(),
                   SafeArea(
                     child: RichText(
-                      text: const TextSpan(
-                        style: AppTextStyles.listItemTitle, // base style
-                        children: [
+                      text: TextSpan(
+                        style:
+                            AppTextStyles.listItemTitle(context), // base style
+                        children: const [
                           TextSpan(
                             text: "Track",
                             style: TextStyle(color: AppColors.whiteColor),
