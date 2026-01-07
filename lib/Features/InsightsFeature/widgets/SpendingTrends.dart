@@ -4,8 +4,11 @@ import 'package:fundflow/ContValues.dart';
 import 'package:fundflow/Core/AppTextStyles.dart';
 import 'package:fundflow/Data/BLoC%20Manager/Transaction%20Cubit/transaction_cubit.dart';
 
+import '../../../Core/AppColors.dart';
 import '../../../Core/helper.dart';
+import '../../../Core/popup.dart';
 import '../../../Data/Models/TransactionModel/TransactionModel.dart';
+import '../../HomeView/Presentation/NewComponents/TransactionListItem.dart';
 
 class SpendingTrendsSection extends StatefulWidget {
   const SpendingTrendsSection({super.key});
@@ -84,6 +87,8 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: _CustomBarChart(
+                barType: selectedTab,
+                allTransactions: transactions,
                 data: chartMap['data']!.cast<double>(),
                 labels: chartMap['labels']!.cast<String>(),
               ),
@@ -198,8 +203,14 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
 class _CustomBarChart extends StatelessWidget {
   final List<double> data;
   final List<String> labels;
+  final List<TransactionModel> allTransactions;
+  final String barType;
 
-  const _CustomBarChart({required this.data, required this.labels});
+  const _CustomBarChart(
+      {required this.data,
+      required this.labels,
+      required this.allTransactions,
+      required this.barType});
 
   @override
   Widget build(BuildContext context) {
@@ -236,12 +247,21 @@ class _CustomBarChart extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           // Bar
-          Container(
-            width: 28,
-            height: barHeight,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              borderRadius: BorderRadius.circular(4),
+          InkWell(
+            onTap: () {
+              final filteredTransactions = _filterTransactions(
+                index,
+                barType,
+              );
+              _showDetails(context, labels[index], filteredTransactions);
+            },
+            child: Container(
+              width: 28,
+              height: barHeight,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                borderRadius: BorderRadius.circular(4),
+              ),
             ),
           ),
           const SizedBox(height: 8),
@@ -284,5 +304,165 @@ class _CustomBarChart extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: chartBars,
           );
+  }
+
+  /// FILTER TRANSACTIONS BASED ON BAR
+  List<TransactionModel> _filterTransactions(int index, String barType) {
+    final now = DateTime.now();
+
+    if (barType == 'Daily') {
+      final date = now.subtract(Duration(days: data.length - 1 - index));
+      return allTransactions.where((tx) {
+        if (tx.date == null) return false;
+        final parts = tx.date!.split('/'); // dd/MM/yyyy
+        final txDate = DateTime(
+            int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
+        return txDate.year == date.year &&
+            txDate.month == date.month &&
+            txDate.day == date.day;
+      }).toList();
+    } else if (barType == 'Weekly') {
+      final startOfWeek = now.subtract(
+          Duration(days: now.weekday - 1 + (data.length - 1 - index) * 7));
+      final endOfWeek = startOfWeek.add(const Duration(days: 6));
+
+      return allTransactions.where((tx) {
+        if (tx.date == null) return false;
+        final parts = tx.date!.split('/');
+        final txDate = DateTime(
+            int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
+        return !txDate.isBefore(startOfWeek) && !txDate.isAfter(endOfWeek);
+      }).toList();
+    } else if (barType == 'Monthly') {
+      final monthDate =
+          DateTime(now.year, now.month - (data.length - 1 - index), 1);
+      return allTransactions.where((tx) {
+        if (tx.date == null) return false;
+        final parts = tx.date!.split('/');
+        final txDate = DateTime(
+            int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
+        return txDate.year == monthDate.year && txDate.month == monthDate.month;
+      }).toList();
+    }
+
+    return [];
+  }
+
+  /// BOTTOM SHEET
+  void _showDetails(
+    BuildContext context,
+    String label,
+    List<TransactionModel> txs,
+  ) {
+    Popup.showBottom(
+      context,
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text("Spending • $label",
+                  style: Theme.of(context).textTheme.titleMedium),
+            ),
+            const SizedBox(height: 12),
+            if (txs.isEmpty)
+              const Center(child: Text("No spendings"))
+            else
+              ListView.separated(
+                shrinkWrap: true,
+                itemCount: txs.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 1),
+                itemBuilder: (_, i) {
+                  final tx = txs[i];
+                  return TransactionListItem(
+                    title: tx.title ?? "Unknown",
+                    subtitle: tx.desc!,
+                    amount: tx.spentAmount!,
+                    icon: Icons.attach_money,
+                    onTap: () {},
+                  );
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget transactionCard(TransactionModel tx) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.lightGreyColor, // subtle background
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Category / icon circle
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.orangeColor.withOpacity(0.2),
+              shape: BoxShape.circle,
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.attach_money, // You can choose icon based on category
+                color: AppColors.orangeColor,
+                size: 24,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+
+          // Title + description/date
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  tx.title ?? "Unknown",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "${tx.desc ?? tx.desc} • ${tx.date}",
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Amount
+          Text(
+            "${getCurrencySymbol()} ${(tx.spentAmount ?? 0).abs().toStringAsFixed(2)}",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: (tx.spentAmount ?? 0) >= 0
+                  ? AppColors.successTeal
+                  : AppColors.redColor,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
