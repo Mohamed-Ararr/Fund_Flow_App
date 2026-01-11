@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,7 +25,7 @@ class SeeAllDebts extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'Debts & Credits History',
+          "debtsCredits".tr(),
           style: AppTextStyles.headerSectionTitle(context),
         ),
       ),
@@ -66,17 +67,17 @@ class SeeAllDebts extends StatelessWidget {
                                           context),
                                     ),
                                     Text(
-                                      'Title: ${state.debtsList[index].title}',
+                                      '${"title".tr()}: ${state.debtsList[index].title}',
                                       style:
                                           AppTextStyles.listItemTitle(context),
                                     ),
                                     Text(
-                                      'Date: ${state.debtsList[index].date}',
+                                      '${"date".tr()}: ${state.debtsList[index].date}',
                                       style:
                                           AppTextStyles.listItemTitle(context),
                                     ),
                                     Text(
-                                      'Amount: ${state.debtsList[index].amount}',
+                                      '${"amount".tr()}: ${state.debtsList[index].amount}',
                                       style:
                                           AppTextStyles.listItemTitle(context),
                                     ),
@@ -87,7 +88,7 @@ class SeeAllDebts extends StatelessWidget {
                                         Expanded(
                                           child: AppButton.sec(
                                             context,
-                                            text: 'Delete',
+                                            text: "delete".tr(),
                                             outlineColor: AppColors.redColor,
                                             onPressed: () {
                                               state.debtsList[index].delete();
@@ -101,7 +102,7 @@ class SeeAllDebts extends StatelessWidget {
                                         Expanded(
                                           child: AppButton.main(
                                             context,
-                                            text: 'Paid Off & Delete',
+                                            text: "paidDelete".tr(),
                                             onPressed: () {
                                               var box =
                                                   Hive.box<double>(kbalanceBox);

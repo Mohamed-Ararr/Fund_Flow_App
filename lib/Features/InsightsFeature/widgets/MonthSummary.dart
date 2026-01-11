@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fundflow/Core/AppColors.dart';
@@ -19,7 +20,7 @@ class MonthSummary extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'This Month Summary',
+          "monthSummary".tr(),
           style: theme.textTheme.titleMedium,
         ),
         const SizedBox(height: 10),
@@ -57,7 +58,7 @@ class MonthSummary extends StatelessWidget {
                           children: [
                             Expanded(
                               child: _SummaryCard(
-                                title: 'Net Balance',
+                                title: "netBalance".tr(),
                                 amount: netBalance,
                                 subtitle: 'Available balance',
                                 amountColor: theme.colorScheme.primary,
@@ -68,7 +69,7 @@ class MonthSummary extends StatelessWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: _SummaryCard(
-                                title: 'Total Spending',
+                                title: "totalSpending".tr(),
                                 amount: totalSpending,
                                 subtitle: '+12% from last month',
                                 amountColor: AppColors.darkOrangeColor,

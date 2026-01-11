@@ -1,3 +1,4 @@
+import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -21,7 +22,12 @@ import "Data/Models/Spent Card Model/SpentCardModel.dart";
 import "Data/Models/Spent Detail Model/SpentDetailModel.dart";
 
 main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   await Hive.initFlutter();
+  // OPEN THE BOX HERE before the app starts
+  await Hive.openBox('settings');
   // TOTAL BALANCE BOX
   await Hive.openBox<double>(kbalanceBox);
   // ONBOARDING SEEN BOX
@@ -55,7 +61,14 @@ main() async {
 
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   await AppThemeController.init();
-  runApp(const FundFlow());
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('ar'), Locale('fr')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: const FundFlow(),
+    ),
+  );
 }
 
 class FundFlow extends StatelessWidget {
@@ -89,6 +102,9 @@ class FundFlow extends StatelessWidget {
         valueListenable: AppThemeController.themeMode,
         builder: (_, mode, __) {
           return MaterialApp.router(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
             routerConfig: AppRouter.routes,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,

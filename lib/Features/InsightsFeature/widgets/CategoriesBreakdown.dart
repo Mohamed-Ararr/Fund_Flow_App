@@ -1,29 +1,124 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fundflow/ContValues.dart';
 
 import '../../../Core/AppColors.dart';
-import '../../../Core/helper.dart';
 import '../../../Data/BLoC Manager/Transaction Cubit/transaction_cubit.dart';
+import '../../../Data/Models/CategoryStatus.dart';
+import '../../../Data/Models/TransactionModel/TransactionModel.dart';
 
 class CategoriesBreakdownSection extends StatelessWidget {
   const CategoriesBreakdownSection({super.key});
 
-  Color categoryColor(String ctg) {
-    switch (ctg) {
-      case 'Housing & Utilities':
-        return AppColors.blueColor;
-      case 'Food & Groceries':
-        return Colors.grey;
-      case 'Transportation':
-        return AppColors.lightOrangeColor;
-      case 'Others':
-        return AppColors.darkText;
-      case 'Personal & Miscellaneous':
-        return AppColors.warningOrange;
-      default:
-        return AppColors.greyColor;
+  // Define category keys
+  static const List<String> _categoryKeys = [
+    'housing',
+    'foodGroceries',
+    'transportation',
+    'personalMiscellaneous',
+    'others',
+  ];
+
+  // Map translation keys to colors
+  static const Map<String, Color> _categoryColors = {
+    "housing": AppColors.blueColor,
+    "foodGroceries": Colors.grey,
+    "transportation": AppColors.lightOrangeColor,
+    "personalMiscellaneous": AppColors.warningOrange,
+    "others": AppColors.darkText,
+  };
+
+  /// Normalize any category descriptor to its key
+  String _normalizeCategoryToKey(String? categoryDesc) {
+    if (categoryDesc == null || categoryDesc.isEmpty) {
+      return 'others';
     }
+
+    final Map<String, String> reverseMap = {
+      // English
+      "Housing & Utilities": "housing",
+      "Food & Groceries": "foodGroceries",
+      "Transportation": "transportation",
+      "Personal & Miscellaneous": "personalMiscellaneous",
+      "Others": "others",
+
+      // French
+      "Logement et Services": "housing",
+      "Alimentation et Épicerie": "foodGroceries",
+      "Transport": "transportation",
+      "Personnel et Divers": "personalMiscellaneous",
+      "Autres": "others",
+
+      // Arabic
+      "السكن والمرافق": "housing",
+      "الطعام والبقالة": "foodGroceries",
+      "المواصلات": "transportation",
+      "شخصي ومتنوع": "personalMiscellaneous",
+      "أخرى": "others",
+
+      // Keys (already normalized)
+      "housing": "housing",
+      "foodGroceries": "foodGroceries",
+      "transportation": "transportation",
+      "personalMiscellaneous": "personalMiscellaneous",
+      "others": "others",
+    };
+
+    // Try exact match
+    String? key = reverseMap[categoryDesc];
+
+    // Try case-insensitive
+    key ??= reverseMap[categoryDesc.toLowerCase()];
+
+    // Try trimmed
+    key ??= reverseMap[categoryDesc.trim()];
+
+    return key ?? 'others';
+  }
+
+  /// Calculate category breakdown from transactions
+  List<CategoryStats> _calculateCategoryBreakdown(
+    List<TransactionModel> transactions,
+  ) {
+    // 1. Initialize all categories with 0
+    final Map<String, double> totals = {
+      for (final ctg in _categoryKeys) ctg: 0.0,
+    };
+
+    // 2. Sum transactions into predefined categories
+    for (final tx in transactions) {
+      final rawCategory = tx.desc; // Raw value from database
+      final amount = tx.spentAmount ?? 0;
+
+      // Normalize the category to key before comparing
+      final normalizedKey = _normalizeCategoryToKey(rawCategory);
+
+      if (totals.containsKey(normalizedKey)) {
+        totals[normalizedKey] = totals[normalizedKey]! + amount;
+      }
+    }
+
+    // 3. Calculate grand total
+    final double grandTotal =
+        totals.values.fold(0.0, (sum, value) => sum + value);
+
+    // 4. Build stats (never empty, percentages safe)
+    return _categoryKeys.map((ctg) {
+      final total = totals[ctg]!;
+      final percentage = grandTotal == 0 ? 0.0 : total / grandTotal;
+
+      return CategoryStats(
+        category: ctg,
+        total: total,
+        percentage: percentage.abs(),
+      );
+    }).toList();
+  }
+
+  /// Get color for a category key
+  Color _categoryColor(String categoryKey) {
+    return _categoryColors[categoryKey] ?? AppColors.greyColor;
   }
 
   @override
@@ -36,24 +131,24 @@ class CategoriesBreakdownSection extends StatelessWidget {
         }
 
         if (state is TransactionLoaded) {
-          final stats = Helper.calculateCategoryBreakdown(state.transactions);
+          final stats = _calculateCategoryBreakdown(state.transactions);
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Categories Breakdown',
+                'categoriesBreakdown'.tr(),
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
               ...stats.map(
                 (item) => _CategoryItem(
-                  name: item.category,
+                  name: item.category.tr(), // Translate the key
                   amount:
                       '${getCurrencySymbol()} ${item.total.toStringAsFixed(2)}',
                   percentage: '${(item.percentage * 100).toStringAsFixed(1)}%',
                   progress: item.percentage,
-                  color: categoryColor(item.category),
+                  color: _categoryColor(item.category), // Use key directly
                 ),
               ),
             ],

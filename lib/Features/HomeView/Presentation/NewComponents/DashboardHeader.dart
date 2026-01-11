@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -66,7 +67,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Hello Again', // Can be customized with user name later
+                'hello'.tr(), // Can be customized with user name later
                 style: AppTextStyles.headerSectionTitle(context),
               ),
               IconButton(
@@ -94,7 +95,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
             child: Column(
               children: [
                 Text(
-                  'Current Balance',
+                  'currentBalance'.tr(),
                   style: AppTextStyles.uiDetails(context),
                 ),
                 GestureDetector(
@@ -138,7 +139,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
           // 3. Primary Call-to-Action Button
           AppButton.icon(
             context,
-            text: 'Log New Entry',
+            text: "logNewEntry".tr(),
             icon: const FaIcon(
               FontAwesomeIcons.plus,
               size: 16.0,

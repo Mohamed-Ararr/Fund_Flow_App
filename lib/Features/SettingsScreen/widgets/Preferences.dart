@@ -1,7 +1,9 @@
 import 'package:currency_picker/currency_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fundflow/ContValues.dart';
 import 'package:fundflow/Core/AppColors.dart';
+import 'package:fundflow/Core/AppRouter.dart';
 import 'package:fundflow/Core/AppTextStyles.dart';
 import 'package:fundflow/Core/ToastService.dart';
 import 'package:fundflow/Features/SettingsScreen/widgets/ReusableComponents.dart';
@@ -18,6 +20,29 @@ class Preferences extends StatefulWidget {
 }
 
 class _PreferencesState extends State<Preferences> {
+  String _getLanguageDisplay() {
+    final box = Hive.box('settings');
+    // Use the same key we used in the Language screen
+    final String? savedSelection = box.get('user_language_pref');
+
+    // 1. If the user explicitly chose 'system' or hasn't made a choice yet
+    if (savedSelection == null || savedSelection == 'system') {
+      return 'followSystem'.tr();
+    }
+
+    // 2. Map the language codes to their Native names
+    switch (savedSelection) {
+      case 'en':
+        return 'English';
+      case 'fr':
+        return 'Français';
+      case 'ar':
+        return 'العربية';
+      default:
+        return 'English';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SettingsCard(
@@ -25,7 +50,7 @@ class _PreferencesState extends State<Preferences> {
         children: [
           SettingsItem(
             icon: Icons.currency_exchange,
-            title: "Currency",
+            title: "currency".tr(),
             trailing: Text(
               getCurrency(),
               style: AppTextStyles.listItemTitle(context),
@@ -35,7 +60,7 @@ class _PreferencesState extends State<Preferences> {
                 context: context,
                 theme: CurrencyPickerThemeData(
                     inputDecoration: InputDecoration(
-                      hintText: "Search currency",
+                      hintText: "searchCurrency".tr(),
                       contentPadding: kPaddingLR12,
                       focusedBorder: OutlineInputBorder(
                         borderRadius: kBr10,
@@ -74,19 +99,22 @@ class _PreferencesState extends State<Preferences> {
           const Divider(color: AppColors.dividerLight),
           SettingsItem(
             icon: Icons.language,
-            title: "Language",
+            title: "languages".tr(),
             trailing: Text(
-              "English",
+              _getLanguageDisplay(), // Dynamic text
               style: AppTextStyles.listItemTitle(context),
             ),
-            onTap: () {
-              ToastService.showInfo(context, 'Feature coming soon!');
+            onTap: () async {
+              // Await the push so when they come back from the Language screen,
+              // this screen refreshes its UI to show the new selection.
+              await context.push(AppRouter.languages);
+              setState(() {});
             },
           ),
           const Divider(color: AppColors.dividerLight),
           SettingsSwitch(
             icon: Icons.dark_mode_outlined,
-            title: "Dark Mode",
+            title: "darkMode".tr(),
             value: AppThemeController.isDarkMode(),
             onChanged: (value) {
               AppThemeController.toggle(value);

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fundflow/Features/InsightsFeature/widgets/MonthSummary.dart';
 
@@ -20,7 +21,7 @@ class InsightsView extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Insights',
+                  'insights'.tr(),
                   style: theme.textTheme.titleLarge,
                 ),
                 const SizedBox(width: 8),

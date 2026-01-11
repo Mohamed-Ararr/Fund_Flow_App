@@ -1,4 +1,5 @@
 import 'package:action_slider/action_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -51,11 +52,11 @@ const String savingImage = "assets/images/saving-plan.png";
 const String emptyListImage = "assets/images/emptyAnimation.json";
 
 final List<String> categories = [
-  'Housing & Utilities',
-  'Food & Groceries',
-  'Transportation',
-  'Personal & Miscellaneous',
-  'Others',
+  "housing".tr(),
+  "foodGroceries".tr(),
+  "transportation".tr(),
+  "personalMiscellaneous".tr(),
+  "others".tr(),
 ];
 
 goBackFunction(context) {

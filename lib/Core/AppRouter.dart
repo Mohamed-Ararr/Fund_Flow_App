@@ -19,6 +19,7 @@ import '../Features/PinCode/PinCode.dart';
 import '../Features/SeeAllDebts/SeeAllDebts.dart';
 import '../Features/SeeAllTransactions/SeeAllTransactions.dart';
 import '../Features/SettingsScreen/SettingsScreen.dart';
+import '../Features/SettingsScreen/widgets/Languages.dart';
 
 class AppRouter {
   static String homeView = "/homeView";
@@ -37,6 +38,7 @@ class AppRouter {
   static String seeAllDebts = "/seeAllDebts";
   static String settingsScreen = "/settingsScreen";
   static String pinCode = "/pinCode";
+  static String languages = "/languages";
 
   static final routes = GoRouter(
     routes: <RouteBase>[
@@ -108,6 +110,10 @@ class AppRouter {
       GoRoute(
         path: pinCode,
         builder: ((context, state) => const PinCode()),
+      ),
+      GoRoute(
+        path: languages,
+        builder: ((context, state) => const Language()),
       ),
     ],
   );

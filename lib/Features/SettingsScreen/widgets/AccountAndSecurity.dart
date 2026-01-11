@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fundflow/Core/ToastService.dart';
 import 'package:fundflow/Features/SettingsScreen/widgets/ReusableComponents.dart';
@@ -32,7 +33,7 @@ class _AccountAndSecurityState extends State<AccountAndSecurity> {
         children: [
           SettingsItem(
             icon: Icons.lock_outline,
-            title: "Change PIN",
+            title: "changePin".tr(),
             onTap: () {
               ToastService.showInfo(context, 'Feature coming soon!');
             },
@@ -40,7 +41,7 @@ class _AccountAndSecurityState extends State<AccountAndSecurity> {
           const Divider(color: AppColors.dividerLight),
           SettingsSwitch(
             icon: Icons.fingerprint,
-            title: "Biometric Login",
+            title: "biometricLogin".tr(),
             value: biometricsEnabled,
             onChanged: (value) async {
               final LocalAuthentication auth = LocalAuthentication();

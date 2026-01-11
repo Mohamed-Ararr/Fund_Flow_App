@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,24 +25,24 @@ class AppSettings extends StatelessWidget {
         children: [
           SettingsSwitch(
             icon: Icons.notifications_active_outlined,
-            title: "Notifications",
+            title: "notifications".tr(),
             value: true,
             onChanged: (value) {
               ToastService.showInfo(context, 'Feature coming soon!');
             },
           ),
-          const Divider(color: AppColors.dividerLight),
-          SettingsItem(
-            icon: Icons.cloud_upload_outlined,
-            title: "Data Backup",
-            onTap: () {
-              ToastService.showInfo(context, 'Feature coming soon!');
-            },
-          ),
+          // const Divider(color: AppColors.dividerLight),
+          // SettingsItem(
+          //   icon: Icons.cloud_upload_outlined,
+          //   title: "Data Backup",
+          //   onTap: () {
+          //     ToastService.showInfo(context, 'Feature coming soon!');
+          //   },
+          // ),
           const Divider(color: AppColors.dividerLight),
           SettingsItem(
             icon: Icons.file_download_outlined,
-            title: "Export Transactions",
+            title: "exportTrans".tr(),
             onTap: () {
               Popup.showBottom(
                 context,
@@ -57,7 +58,7 @@ class AppSettings extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Export As',
+                          'exportAs'.tr(),
                           style: AppTextStyles.headerSectionTitle(context),
                         ),
                         BlocBuilder<TransactionCubit, TransactionState>(

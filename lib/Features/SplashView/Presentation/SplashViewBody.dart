@@ -80,10 +80,18 @@ class _FundFlowSplashViewState extends State<FundFlowSplashView>
     final box = Hive.box<bool>(kOnboarding);
     final isSeen = box.get(kOnboarding, defaultValue: false);
 
+    Box currencyBox = Hive.box<String>(kCurrencyCode);
+    String? selectedCurrency = currencyBox.get(kCurrencyCode);
+
     if (!mounted) return;
 
     context.pushReplacement(
-      isSeen! ? AppRouter.pinCode : AppRouter.onBoardingView,
+      isSeen!
+          ? selectedCurrency != null && selectedCurrency.isNotEmpty
+              ? AppRouter.pinCode
+              : AppRouter.selectCurrencyView
+          : AppRouter.onBoardingView,
+      // AppRouter.homeView,
     );
   }
 

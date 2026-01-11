@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomAppBar extends StatefulWidget {
@@ -23,8 +24,8 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Expanded(child: _item(Icons.home_rounded, 'Home', 0)),
-          Expanded(child: _item(Icons.bar_chart_rounded, 'Insights', 1)),
+          Expanded(child: _item(Icons.home_rounded, 'home'.tr(), 0)),
+          Expanded(child: _item(Icons.bar_chart_rounded, 'insights'.tr(), 1)),
         ],
       ),
     );

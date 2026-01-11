@@ -20,10 +20,11 @@ class OnboardingDetails extends StatelessWidget {
     return Padding(
       padding: kPadding30,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
             imageUrl,
-            height: 180,
+            height: 220,
           ),
           const SizedBox(height: 30),
           Text(

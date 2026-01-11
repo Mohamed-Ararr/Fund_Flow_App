@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fundflow/Core/ToastService.dart';
 import 'package:fundflow/Features/HomeView/Presentation/NewHomeViewBody.dart';
@@ -148,7 +151,7 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
         setState(() => isAuthenticated = true);
       }
     } catch (e) {
-      debugPrint("Biometric error: $e");
+      log("Biometric error: $e");
     }
   }
 
@@ -194,9 +197,9 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (isAuthenticated) return const NewHomeViewBody();
     final colors = Theme.of(context).colorScheme;
-    String title = "Enter your PIN";
-    if (isCreatingPin) title = "Create a PIN";
-    if (isConfirmingPin) title = "Confirm PIN";
+    String title = "enterPin".tr();
+    if (isCreatingPin) title = "createPin".tr();
+    if (isConfirmingPin) title = "confirmPin".tr();
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -234,7 +237,7 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
             const SizedBox(height: 20),
             if (isError)
               Text(
-                "Incorrect PIN. Try again.",
+                "incorrectPin".tr(),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(context).colorScheme.error,
                     ),

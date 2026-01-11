@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fundflow/ContValues.dart';
@@ -20,7 +21,7 @@ class DebtCreditsSummary extends StatelessWidget {
             children: [
               Expanded(
                 child: _DetailSummaryCard(
-                  title: 'Debts',
+                  title: 'debts'.tr(),
                   totalAmount: '-${getCurrencySymbol()} 0.00',
                   mainColor: AppColors.redColor,
                   icon: Icons.arrow_upward,
@@ -29,7 +30,7 @@ class DebtCreditsSummary extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: _DetailSummaryCard(
-                  title: 'Credits',
+                  title: 'credits'.tr(),
                   totalAmount: '${getCurrencySymbol()} 0.00',
                   mainColor: AppColors.successTeal,
                   icon: Icons.arrow_downward,
@@ -50,7 +51,7 @@ class DebtCreditsSummary extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Debts & Credits Summary',
+                'debtSummary'.tr(),
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
@@ -58,7 +59,7 @@ class DebtCreditsSummary extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _DetailSummaryCard(
-                      title: 'Debts',
+                      title: 'debts'.tr(),
                       totalAmount: Helper.totalDebts(debts),
                       mainColor: AppColors.darkOrangeColor,
                       icon: Icons.arrow_upward,
@@ -67,7 +68,7 @@ class DebtCreditsSummary extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: _DetailSummaryCard(
-                      title: 'Credits',
+                      title: 'credits'.tr(),
                       totalAmount: Helper.totalCredits(debts),
                       mainColor: AppColors.blueColor,
                       icon: Icons.arrow_downward,

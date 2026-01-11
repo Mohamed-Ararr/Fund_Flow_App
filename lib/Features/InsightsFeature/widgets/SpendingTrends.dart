@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fundflow/ContValues.dart';
@@ -18,7 +19,7 @@ class SpendingTrendsSection extends StatefulWidget {
 }
 
 class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
-  String selectedTab = 'Daily'; // Default selected tab
+  String selectedTab = 'daily'.tr(); // Default selected tab
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Spending Trends',
+              "spendingTrends".tr(),
               style: theme.textTheme.titleMedium,
             ),
             const SizedBox(height: 10),
@@ -48,7 +49,8 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
-                children: ['Daily', 'Weekly', 'Monthly'].map((tab) {
+                children:
+                    ['daily'.tr(), 'weekly'.tr(), 'monthly'.tr()].map((tab) {
                   final isSelected = tab == selectedTab;
                   return Expanded(
                     child: GestureDetector(
@@ -130,7 +132,7 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
     List<double> data = [];
     List<String> labels = [];
 
-    if (selectedTab == 'Daily') {
+    if (selectedTab == 'daily'.tr()) {
       /// LAST 7 DAYS
       for (int i = 6; i >= 0; i--) {
         final date = now.subtract(Duration(days: i));
@@ -143,7 +145,7 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
         data.add(total);
         labels.add(Helper.weekdayShort(date.weekday)); // Mon, Tue, ...
       }
-    } else if (selectedTab == 'Weekly') {
+    } else if (selectedTab == 'weekly'.tr()) {
       // Determine the current date
       final DateTime now = DateTime.now();
 
@@ -181,7 +183,7 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
       // Reverse so oldest week is left-most, current week right-most
       data = data.reversed.toList();
       labels = labels.reversed.toList();
-    } else if (selectedTab == 'Monthly') {
+    } else if (selectedTab == 'monthly'.tr()) {
       /// LAST 12 MONTHS
       for (int i = 11; i >= 0; i--) {
         final date = DateTime(now.year, now.month - i, 1);
@@ -310,7 +312,7 @@ class _CustomBarChart extends StatelessWidget {
   List<TransactionModel> _filterTransactions(int index, String barType) {
     final now = DateTime.now();
 
-    if (barType == 'Daily') {
+    if (barType == 'daily'.tr()) {
       final date = now.subtract(Duration(days: data.length - 1 - index));
       return allTransactions.where((tx) {
         if (tx.date == null) return false;
@@ -321,7 +323,7 @@ class _CustomBarChart extends StatelessWidget {
             txDate.month == date.month &&
             txDate.day == date.day;
       }).toList();
-    } else if (barType == 'Weekly') {
+    } else if (barType == 'weekly'.tr()) {
       final startOfWeek = now.subtract(
           Duration(days: now.weekday - 1 + (data.length - 1 - index) * 7));
       final endOfWeek = startOfWeek.add(const Duration(days: 6));
@@ -333,7 +335,7 @@ class _CustomBarChart extends StatelessWidget {
             int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
         return !txDate.isBefore(startOfWeek) && !txDate.isAfter(endOfWeek);
       }).toList();
-    } else if (barType == 'Monthly') {
+    } else if (barType == 'monthly'.tr()) {
       final monthDate =
           DateTime(now.year, now.month - (data.length - 1 - index), 1);
       return allTransactions.where((tx) {
@@ -357,34 +359,39 @@ class _CustomBarChart extends StatelessWidget {
     Popup.showBottom(
       context,
       child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Text("Spending • $label",
-                  style: Theme.of(context).textTheme.titleMedium),
-            ),
-            const SizedBox(height: 12),
-            if (txs.isEmpty)
-              const Center(child: Text("No spendings"))
-            else
-              ListView.separated(
-                shrinkWrap: true,
-                itemCount: txs.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 1),
-                itemBuilder: (_, i) {
-                  final tx = txs[i];
-                  return TransactionListItem(
-                    title: tx.title ?? "Unknown",
-                    subtitle: tx.desc!,
-                    amount: tx.spentAmount!,
-                    icon: Icons.attach_money,
-                    onTap: () {},
-                  );
-                },
+        child: SizedBox(
+          height: Helper.width(context) * 0.9,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text("${"totalSpending".tr()} • $label",
+                    style: Theme.of(context).textTheme.titleMedium),
               ),
-          ],
+              const SizedBox(height: 12),
+              if (txs.isEmpty)
+                const Center(child: Text("No spendings"))
+              else
+                Expanded(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: txs.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 1),
+                    itemBuilder: (_, i) {
+                      final tx = txs[i];
+                      return TransactionListItem(
+                        title: tx.title ?? "Unknown",
+                        subtitle: tx.desc!,
+                        amount: tx.spentAmount!,
+                        icon: Icons.attach_money,
+                        onTap: () {},
+                      );
+                    },
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

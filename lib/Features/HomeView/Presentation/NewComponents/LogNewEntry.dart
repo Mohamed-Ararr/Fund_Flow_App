@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,8 +37,8 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
 
   // Essential Categories List
   final List<String> _debtTypes = [
-    'Lending', // Money you are owed
-    'Loan', // Money you owe
+    'lending'.tr(), // Money you are owed
+    'loan'.tr(), // Money you owe
   ];
 
   // Controllers for the form fields
@@ -128,7 +129,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
       log('Validation failed: Title and valid Amount are required.');
       ToastService.showError(
         context,
-        'Title and valid Amount are required',
+        "titleAndAmountRequired".tr(),
       );
       return;
     }
@@ -143,7 +144,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
           log('Validation failed: Category selection is required for Expense.');
           ToastService.showError(
             context,
-            'Category selection is required for Expense',
+            'categorySelectionRequired'.tr(),
           );
           return;
         }
@@ -201,8 +202,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
           currentBalance = currentBalance + amount;
         } else {
           if (currentBalance < amount) {
-            ToastService.showError(
-                context, "Not enough balance to do this operation");
+            ToastService.showError(context, "notEnoughBalance".tr());
             return;
           }
           currentBalance = currentBalance - amount;
@@ -212,7 +212,8 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
           title: title,
           amount: amount,
           date: date,
-          isDebt: _selectedDebtType?.toLowerCase() == 'loan' ? false : true,
+          isDebt:
+              _selectedDebtType?.toLowerCase() == 'loan'.tr() ? false : true,
           isPaid: false,
         );
         BlocProvider.of<AddNewDebtCubit>(context).addNewDebtCard(debtCardModel);
@@ -247,7 +248,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'Log New Entry',
+          "logNewEntry".tr(),
           style: AppTextStyles.headerSectionTitle(context),
         ),
       ),
@@ -267,17 +268,17 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
 
                   switch (type) {
                     case EntryType.expense:
-                      text = 'Expense';
+                      text = 'expense'.tr();
                       icon = FontAwesomeIcons.minus;
                       color = AppColors.darkOrangeColor;
                       break;
                     case EntryType.income:
-                      text = 'Income';
+                      text = 'income'.tr();
                       icon = FontAwesomeIcons.plus;
                       color = AppColors.successTeal;
                       break;
                     case EntryType.debtCredit:
-                      text = 'Debt';
+                      text = 'debt'.tr();
                       icon = FontAwesomeIcons.handshake;
                       color = AppColors.greyColor;
                       break;
@@ -330,7 +331,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                       const SizedBox(height: 16.0),
                       // Amount Field
                       CustomInputField(
-                        label: 'Amount (e.g., 42.85)',
+                        label: '${"amount".tr()} (e.g., 42.85)',
                         controller: _amountController,
                         keyboardType: const TextInputType.numberWithOptions(
                             decimal: true),
@@ -338,8 +339,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
 
                       // Title/Description Field
                       CustomInputField(
-                        label:
-                            'Title/Description (e.g., Dinner at Olive Garden)',
+                        label: '${"title".tr()} (e.g., Dinner at Olive Garden)',
                         controller: _titleController,
                       ),
 
@@ -351,7 +351,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                             dropdownColor: theme.colorScheme.surface,
                             initialValue: _selectedCategory,
                             decoration: InputDecoration(
-                              hintText: 'Select Category',
+                              // hintText: 'Select Category',
                               hintStyle:
                                   AppTextStyles.listItemSubtitle(context),
                               filled: true,
@@ -388,9 +388,8 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                                 _selectedCategory = newValue;
                               });
                             },
-                            validator: (value) => value == null
-                                ? 'Please select a category'
-                                : null,
+                            validator: (value) =>
+                                value == null ? 'selectCategory'.tr() : null,
                           ),
                         ),
 
@@ -403,7 +402,7 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                             initialValue:
                                 _selectedDebtType, // Use value instead of initialValue
                             decoration: InputDecoration(
-                              hintText: 'Select Debt Type',
+                              // hintText: 'Select Debt Type',
                               hintStyle:
                                   AppTextStyles.listItemSubtitle(context),
                               filled: true,
@@ -440,15 +439,14 @@ class _LogNewEntryViewState extends State<LogNewEntryView> {
                                 _selectedDebtType = newValue;
                               });
                             },
-                            validator: (value) => value == null
-                                ? 'Please select a debt type'
-                                : null,
+                            validator: (value) =>
+                                value == null ? 'selectDebtType'.tr() : null,
                           ),
                         ),
 
                       // Date Field (Clickable to open DatePicker)
                       CustomInputField(
-                        label: 'Date',
+                        label: 'date'.tr(),
                         controller: _dateController,
                         readOnly: true,
                         onTap: _selectDate,

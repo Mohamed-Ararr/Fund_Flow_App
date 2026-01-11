@@ -1,4 +1,5 @@
 import "package:currency_picker/currency_picker.dart";
+import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:fundflow/Core/AppColors.dart";
@@ -30,7 +31,7 @@ class SelectCurrencyViewBody extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Select currency to continue with",
+                  "selectCurrencyDescription".tr(),
                   style: AppTextStyles.headline3(context),
                   textAlign: TextAlign.center,
                 ),
@@ -42,7 +43,7 @@ class SelectCurrencyViewBody extends StatelessWidget {
                       context: context,
                       theme: CurrencyPickerThemeData(
                           inputDecoration: InputDecoration(
-                            hintText: "Search currency",
+                            hintText: "searchCurrency".tr(),
                             contentPadding: kPaddingLR12,
                             focusedBorder: OutlineInputBorder(
                               borderRadius: kBr10,
@@ -76,7 +77,7 @@ class SelectCurrencyViewBody extends StatelessWidget {
                       },
                     );
                   },
-                  text: "Select a currency",
+                  text: "selectCurrency".tr(),
                 ),
               ],
             ),

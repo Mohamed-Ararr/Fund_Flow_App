@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +12,7 @@ import '../../Core/AppTextStyles.dart';
 import '../../Core/Custom Mades/CustomEmptyList.dart';
 import '../../Core/Custom Mades/CustomProgressIndicator.dart';
 import '../../Core/buttons.dart';
+import '../../Core/helper.dart';
 import '../../Core/popup.dart';
 import '../../Data/BLoC Manager/Transaction Cubit/transaction_cubit.dart';
 import '../../Data/BLoC Manager/User Cubit/user_cubit.dart';
@@ -24,7 +26,7 @@ class SeeAllTransactions extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'Transactions History',
+          "transHistory".tr(),
           style: AppTextStyles.headerSectionTitle(context),
         ),
       ),
@@ -41,122 +43,104 @@ class SeeAllTransactions extends StatelessWidget {
               return Column(
                 spacing: 15,
                 children: [
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  //   child: Row(
-                  //     spacing: 10,
-                  //     children: [
-                  //       Text(
-                  //         'Total Spent',
-                  //         style: AppTextStyles.headerSectionTitle(context),
-                  //       ),
-                  //       const Expanded(
-                  //           child: Divider(
-                  //         color: AppColors.lightGreyColor,
-                  //       )),
-                  //       Text(
-                  //         '${Helper.totalTransaction(state.transactions)} ',
-                  //         style: AppTextStyles.headerSectionTitle(context),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-
                   Expanded(
                     child: ListView.separated(
-                      itemBuilder: (context, index) => TransactionListItem(
-                        title: state.transactions[index].title ?? 'Unknown',
-                        subtitle: state.transactions[index].desc ?? 'Unknown',
-                        amount: state.transactions[index].spentAmount ?? 0.0,
-                        icon: FontAwesomeIcons.moneyBill,
-                        onTap: () {
-                          Popup.showBottom(
-                            context,
-                            child: SafeArea(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, right: 15, bottom: 15),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  spacing: 12,
-                                  children: [
-                                    Text(
-                                      'Transaction Details',
-                                      style: AppTextStyles.headerSectionTitle(
-                                          context),
-                                    ),
-                                    Text(
-                                      'Title: ${state.transactions[index].title ?? 'Unknown'}',
-                                      style:
-                                          AppTextStyles.listItemTitle(context),
-                                    ),
-                                    Text(
-                                      'Description: ${state.transactions[index].desc ?? 'Unknown'}',
-                                      style:
-                                          AppTextStyles.listItemTitle(context),
-                                    ),
-                                    Text(
-                                      'Amount: ${state.transactions[index].spentAmount ?? 0.0}',
-                                      style:
-                                          AppTextStyles.listItemTitle(context),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      spacing: 10,
-                                      children: [
-                                        Expanded(
-                                          child: AppButton.sec(
-                                            context,
-                                            text: 'Delete',
-                                            outlineColor: AppColors.redColor,
-                                            onPressed: () {
-                                              state.transactions[index]
-                                                  .delete();
-                                              context
-                                                  .read<UserCubit>()
-                                                  .fetchUserBalanceNew();
-                                              context
-                                                  .read<TransactionCubit>()
-                                                  .fetchTransactions();
-                                              context.pop();
-                                            },
+                      itemBuilder: (context, index) {
+                        final transaction = state.transactions[index];
+
+                        return TransactionListItem(
+                          title: transaction.title ?? 'Unknown',
+                          subtitle: Helper.translateCategory(
+                              transaction.desc), // ✅ Use helper
+                          amount: transaction.spentAmount ?? 0.0,
+                          icon: FontAwesomeIcons.moneyBill,
+                          onTap: () {
+                            Popup.showBottom(
+                              context,
+                              child: SafeArea(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15, right: 15, bottom: 15),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    spacing: 12,
+                                    children: [
+                                      Text(
+                                        "transDetails".tr(),
+                                        style: AppTextStyles.headerSectionTitle(
+                                            context),
+                                      ),
+                                      Text(
+                                        '${"title".tr()}: ${transaction.title ?? 'Unknown'}',
+                                        style: AppTextStyles.listItemTitle(
+                                            context),
+                                      ),
+                                      Text(
+                                        '${"category".tr()}: ${Helper.translateCategory(transaction.desc)}', // ✅ Use helper
+                                        style: AppTextStyles.listItemTitle(
+                                            context),
+                                      ),
+                                      Text(
+                                        '${"amount".tr()}: ${transaction.spentAmount ?? 0.0}',
+                                        style: AppTextStyles.listItemTitle(
+                                            context),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        spacing: 10,
+                                        children: [
+                                          Expanded(
+                                            child: AppButton.sec(
+                                              context,
+                                              text: 'delete'.tr(),
+                                              outlineColor: AppColors.redColor,
+                                              onPressed: () {
+                                                transaction.delete();
+                                                context
+                                                    .read<UserCubit>()
+                                                    .fetchUserBalanceNew();
+                                                context
+                                                    .read<TransactionCubit>()
+                                                    .fetchTransactions();
+                                                context.pop();
+                                              },
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: AppButton.main(
-                                            context,
-                                            text: 'Delete & Refund',
-                                            onPressed: () {
-                                              var box =
-                                                  Hive.box<double>(kbalanceBox);
-                                              double oldBalance =
-                                                  box.get(kbalanceBox) ?? 0.0;
-                                              double newBalance = oldBalance -
-                                                  (state.transactions[index]
-                                                          .spentAmount ??
-                                                      0.0);
-                                              box.put(kbalanceBox, newBalance);
-                                              state.transactions[index]
-                                                  .delete();
-                                              context
-                                                  .read<UserCubit>()
-                                                  .fetchUserBalanceNew();
-                                              context
-                                                  .read<TransactionCubit>()
-                                                  .fetchTransactions();
-                                              context.pop();
-                                            },
+                                          Expanded(
+                                            child: AppButton.main(
+                                              context,
+                                              text: "deleteRefund".tr(),
+                                              onPressed: () {
+                                                var box = Hive.box<double>(
+                                                    kbalanceBox);
+                                                double oldBalance =
+                                                    box.get(kbalanceBox) ?? 0.0;
+                                                double newBalance = oldBalance -
+                                                    (transaction.spentAmount ??
+                                                        0.0);
+                                                box.put(
+                                                    kbalanceBox, newBalance);
+                                                transaction.delete();
+                                                context
+                                                    .read<UserCubit>()
+                                                    .fetchUserBalanceNew();
+                                                context
+                                                    .read<TransactionCubit>()
+                                                    .fetchTransactions();
+                                                context.pop();
+                                              },
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
+                            );
+                          },
+                        );
+                      },
                       separatorBuilder: (_, index) => const SizedBox(height: 5),
                       itemCount: state.transactions.length,
                     ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fundflow/Data/Models/Debt%20Card%20Model/DebtCardModel.dart';
@@ -5,8 +6,64 @@ import 'package:fundflow/Data/Models/Debt%20Card%20Model/DebtCardModel.dart';
 import '../ContValues.dart';
 import '../Data/Models/CategoryStatus.dart';
 import '../Data/Models/TransactionModel/TransactionModel.dart';
+import 'AppColors.dart';
 
 class Helper {
+  static String translateCategory(String? categoryDesc) {
+    if (categoryDesc == null || categoryDesc.isEmpty) {
+      return 'others'.tr();
+    }
+
+    // Map of possible category descriptors to translation keys
+    final Map<String, String> categoryMap = {
+      // If storing English names
+      'Housing & Utilities': 'housing',
+      'Food & Groceries': 'foodGroceries',
+      'Transportation': 'transportation',
+      'Personal & Miscellaneous': 'personalMiscellaneous',
+      'Others': 'others',
+
+      // If storing keys directly
+      'housing': 'housing',
+      'foodGroceries': 'foodGroceries',
+      'transportation': 'transportation',
+      'personalMiscellaneous': 'personalMiscellaneous',
+      'others': 'others',
+
+      // If storing lowercase variants
+      'housing & utilities': 'housing',
+      'food & groceries': 'foodGroceries',
+      'transportation': 'transportation',
+      'personal & miscellaneous': 'personalMiscellaneous',
+
+      // French variants (if stored)
+      'Logement et Services': 'housing',
+      'Alimentation et Épicerie': 'foodGroceries',
+      'Transport': 'transportation',
+      'Personnel et Divers': 'personalMiscellaneous',
+      'Autres': 'others',
+
+      // Arabic variants (if stored)
+      'السكن والمرافق': 'housing',
+      'الطعام والبقالة': 'foodGroceries',
+      'المواصلات': 'transportation',
+      'شخصي ومتنوع': 'personalMiscellaneous',
+      'أخرى': 'others',
+    };
+
+    // Try exact match first
+    String? key = categoryMap[categoryDesc];
+
+    // If no exact match, try case-insensitive
+    key ??= categoryMap[categoryDesc.toLowerCase()];
+
+    // If still no match, try with trimmed whitespace
+    key ??= categoryMap[categoryDesc.trim()];
+
+    // Return translated string or fallback
+    return key != null ? key.tr() : 'others'.tr();
+  }
+
   static double width(context) => MediaQuery.sizeOf(context).width;
   static String formatCurrency(double? value) {
     if (value == null) {
@@ -44,32 +101,68 @@ class Helper {
     return '\u202A$combinedString\u202C';
   }
 
-  static IconData getCategoryIcon(String category) {
-    switch (category) {
-      case 'Housing & Utilities':
-        // Solid building/shelter icon
-        return FontAwesomeIcons.houseChimney;
+// Category Colors Map
+  static const Map<String, Color> _categoryColors = {
+    "housing": AppColors.blueColor,
+    "foodGroceries": Colors.grey,
+    "transportation": AppColors.lightOrangeColor,
+    "others": AppColors.darkText,
+    "personalMiscellaneous": AppColors.warningOrange,
+  };
 
-      case 'Food & Groceries':
-        // Solid shopping cart for groceries/food
-        return FontAwesomeIcons.cartShopping;
+  // Category Icons Map
+  static const Map<String, IconData> _categoryIcons = {
+    "housing": FontAwesomeIcons.houseChimney,
+    "foodGroceries": FontAwesomeIcons.cartShopping,
+    "transportation": FontAwesomeIcons.car,
+    "others": FontAwesomeIcons.moneyBillTrendUp,
+    "personalMiscellaneous": FontAwesomeIcons.bagShopping,
+  };
 
-      case 'Transportation':
-        // Solid car icon for travel expenses
-        return FontAwesomeIcons.car;
+  // Reverse mapping: translated string -> key (ALL LANGUAGES)
+  static String _getCategoryKey(String translatedCategory) {
+    final Map<String, String> reverseMap = {
+      // English
+      "Housing & Utilities": "housing",
+      "Food & Groceries": "foodGroceries",
+      "Transportation": "transportation",
+      "Others": "others",
+      "Personal & Miscellaneous": "personalMiscellaneous",
 
-      case 'Income (Salary, Side-Gigs)':
-        // Solid money/trend icon indicating income
-        return FontAwesomeIcons.moneyBillTrendUp;
+      // French
+      "Logement et Services": "housing",
+      "Alimentation et Épicerie": "foodGroceries",
+      "Transport": "transportation",
+      "Autres": "others",
+      "Personnel et Divers": "personalMiscellaneous",
 
-      case 'Personal & Miscellaneous':
-        // Solid shopping bag for general personal purchases/misc items
-        return FontAwesomeIcons.bagShopping;
+      // Arabic
+      "السكن والمرافق": "housing",
+      "الطعام والبقالة": "foodGroceries",
+      "المواصلات": "transportation",
+      "أخرى": "others",
+      "شخصي ومتنوع": "personalMiscellaneous",
+    };
 
-      default:
-        // Fallback solid question mark
-        return FontAwesomeIcons.question;
-    }
+    return reverseMap[translatedCategory] ??
+        translatedCategory
+            .toLowerCase()
+            .replaceAll(' ', '')
+            .replaceAll('&', '')
+            .replaceAll('é', 'e')
+            .replaceAll('è', 'e');
+  }
+
+  // Get category color
+  static Color getCategoryColor(String translatedCategory) {
+    final key = _getCategoryKey(translatedCategory);
+    return _categoryColors[key] ?? AppColors.greyColor;
+  }
+
+  // Get category icon
+  static IconData getCategoryIcon(String translatedCategory) {
+    final key = _getCategoryKey(translatedCategory);
+    return _categoryIcons[key] ?? FontAwesomeIcons.question;
   }
 
   static totalTransaction(List<TransactionModel>? transactions) {

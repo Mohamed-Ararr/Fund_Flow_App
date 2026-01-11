@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 class OnboardingModel {
   String imageUrl;
   String title;
@@ -13,20 +15,18 @@ class OnboardingModel {
 List<OnboardingModel> onBoardingContents = [
   OnboardingModel(
       imageUrl: "assets/images/welcome.svg",
-      title: "Welcome to Fund Flow",
-      subTitle: "Your financial companion throughout your journey."),
+      title: "onboardingOneTitle".tr(),
+      subTitle: "onboardingOneDescription".tr()),
   OnboardingModel(
       imageUrl: "assets/images/spend_track.svg",
-      title: "Track your money flow",
-      subTitle: "Gain valuable insights and track your money spents"),
+      title: "onboardingTwoTitle".tr(),
+      subTitle: "onboardingTwoDescription".tr()),
   OnboardingModel(
       imageUrl: "assets/images/saving_money.svg",
-      title: "Smart saving plans",
-      subTitle:
-          "Create and manage customized saving plans tailored to your goals and aspirations"),
+      title: "onboardingThreeTitle".tr(),
+      subTitle: "onboardingThreeDescription".tr()),
   OnboardingModel(
       imageUrl: "assets/images/debts_loans.svg",
-      title: "Manage debts and loans",
-      subTitle:
-          "Achieve financial freedom by efficiently managing your debts and loans"),
+      title: "onboardingFourTitle".tr(),
+      subTitle: "onboardingFourDescription".tr()),
 ];

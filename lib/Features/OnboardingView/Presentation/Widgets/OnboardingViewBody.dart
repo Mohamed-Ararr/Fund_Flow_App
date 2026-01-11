@@ -1,3 +1,4 @@
+import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
 import "package:fundflow/ContValues.dart";
 import "package:fundflow/Core/AppFonts.dart";
@@ -36,7 +37,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
               GoRouter.of(context).go(AppRouter.selectCurrencyView);
             },
             child: Text(
-              "Skip",
+              "skip".tr(),
               style: AppTextStyles.bodyLarge(context),
             ),
           ),
@@ -72,7 +73,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
               const SizedBox(height: 20),
               AppButton.main(
                 context,
-                text: currentIndex == 3 ? "Get Started" : "Next",
+                text: currentIndex == 3 ? "getStarted".tr() : "next".tr(),
                 onPressed: () {
                   Box boardingBox = Hive.box<bool>(kOnboarding);
                   boardingBox.put(kOnboarding, true);
