@@ -7,12 +7,6 @@ class UserInitial extends UserState {}
 
 class UserLoading extends UserState {}
 
-class UserSuccess extends UserState {
-  final double currentBalance;
-
-  UserSuccess(this.currentBalance);
-}
-
 class UserSuccessNew extends UserState {
   final double currentBalance;
   final List<BalanceEntryModel>? history;

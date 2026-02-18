@@ -34,7 +34,7 @@ class _DebtFormInputsState extends State<DebtFormInputs> {
       listener: (context, state) {
         if (state is AddNewDebtSuccess) {
           BlocProvider.of<DebtCubit>(context).fetchDebtCards();
-          BlocProvider.of<UserCubit>(context).fetchUserBalance();
+          BlocProvider.of<UserCubit>(context).fetchUserBalanceNew();
           goBackFunction(context);
         }
       },
@@ -71,7 +71,7 @@ class _DebtFormInputsState extends State<DebtFormInputs> {
                   if (key.currentState!.validate()) {
                     key.currentState!.save();
                     Box<double> balanceBox = Hive.box<double>(kbalanceBox);
-                    double currentBalance = balanceBox.get(kbalanceBox)!;
+                    double currentBalance = balanceBox.get(kbalanceBox) ?? 0.0;
                     if (isDebt) {
                       currentBalance = currentBalance + amount;
                       balanceBox.put(kbalanceBox, currentBalance);

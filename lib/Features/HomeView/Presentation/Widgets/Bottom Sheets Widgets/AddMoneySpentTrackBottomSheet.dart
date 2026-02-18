@@ -102,7 +102,7 @@ class _AddMoneySpentTrackBottomSheetState
                       widget.spentCardModel.save();
                       currentBalance = currentBalance - amount;
                       totalBalanceBox.put(kbalanceBox, currentBalance);
-                      BlocProvider.of<UserCubit>(context).fetchUserBalance();
+                      BlocProvider.of<UserCubit>(context).fetchUserBalanceNew();
                       BlocProvider.of<SpentCubit>(context).fetchSpentCards();
                       sliderSuccessOperation(controller);
                       goBackFunction(context);

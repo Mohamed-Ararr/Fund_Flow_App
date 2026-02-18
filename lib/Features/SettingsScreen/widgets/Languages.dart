@@ -85,20 +85,6 @@ class _LanguageState extends State<Language> {
               Text('selectLanguage'.tr(), style: theme.textTheme.headlineSmall),
 
               const SizedBox(height: 15),
-              // // SYSTEM CARD - Now correctly tracks the 'system' string
-              // _LanguageCard(
-              //   languageCode: 'system',
-              //   languageName: 'followSystem'.tr(),
-              //   nativeName: 'systemDefault'.tr(),
-              //   flag: '🌐',
-              //   isSelected: _selectedLanguage == 'system',
-              //   onTap: () => _changeLanguage('system'),
-              // ),
-
-              // const SizedBox(height: 16),
-              // // _buildDivider(theme),
-              // const SizedBox(height: 16),
-
               // SPECIFIC LANGUAGES
               Expanded(
                 child: ListView(

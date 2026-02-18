@@ -91,8 +91,8 @@ class _SpendingTrendsSectionState extends State<SpendingTrendsSection> {
               child: _CustomBarChart(
                 barType: selectedTab,
                 allTransactions: transactions,
-                data: chartMap['data']!.cast<double>(),
-                labels: chartMap['labels']!.cast<String>(),
+                data: (chartMap['data'] ?? []).cast<double>(),
+                labels: (chartMap['labels'] ?? []).cast<String>(),
               ),
             ),
             const SizedBox(height: 5),

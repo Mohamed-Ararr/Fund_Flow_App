@@ -18,7 +18,7 @@ class CompletedSavingCard extends StatelessWidget {
         Expanded(
           child: InkWell(
             onTap: () {
-              savingCardModel.isCompleted = !savingCardModel.isCompleted!;
+              savingCardModel.isCompleted = !(savingCardModel.isCompleted ?? false);
               savingCardModel.save();
               BlocProvider.of<SavingCubit>(context).fetchSavingCards();
             },
@@ -32,7 +32,7 @@ class CompletedSavingCard extends StatelessWidget {
                   borderRadius: kBr10,
                 ),
                 child: Text(
-                  savingCardModel.isCompleted! ? "Completed" : "Not yet",
+                  (savingCardModel.isCompleted ?? false) ? "Completed" : "Not yet",
                   style: const TextStyle(color: Colors.white),
                 ),
               ),

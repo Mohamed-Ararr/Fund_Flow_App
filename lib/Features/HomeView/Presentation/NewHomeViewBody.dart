@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../InsightsFeature/InsightsView.dart';
 import 'NewComponents/DashboardHeader.dart';
 import 'NewComponents/DebtsList.dart';
+import 'NewComponents/SavingsList.dart';
 import 'NewComponents/TransactionsList.dart';
 import 'Widgets/CustomBottomAppBar.dart';
 

@@ -13,18 +13,6 @@ part 'user_state.dart';
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(UserInitial());
 
-  fetchUserBalance() async {
-    double currentBalance;
-    try {
-      emit(UserLoading());
-      currentBalance = Hive.box<double>(kbalanceBox).get(kbalanceBox) ?? 0.0;
-      emit(UserSuccess(currentBalance));
-    } on Exception catch (e) {
-      emit(UserFailure(e.toString()));
-    }
-  }
-
-  // Method to retrieve current balance AND historical data
   fetchUserBalanceNew() async {
     try {
       emit(UserLoading());
@@ -35,7 +23,6 @@ class UserCubit extends Cubit<UserState> {
 
       // 2. Fetch historical entries
       final historyBox = Hive.box<BalanceEntryModel>(kbalanceHistoryBox);
-      // Retrieve and sort the history by date (essential for charts)
       final history = historyBox.values.toList()
         ..sort((a, b) => a.date.compareTo(b.date));
 
@@ -52,10 +39,10 @@ class UserCubit extends Cubit<UserState> {
     required String date,
     required String title,
   }) async {
-    // 1. Ensure state is ready (optional but safer)
-    if (state is! UserSuccess) {
-      await fetchUserBalance();
-      if (state is! UserSuccess) return;
+    // 1. Ensure state is ready
+    if (state is! UserSuccessNew) {
+      await fetchUserBalanceNew();
+      if (state is! UserSuccessNew) return;
     }
 
     final successState = state as UserSuccessNew;
@@ -70,20 +57,17 @@ class UserCubit extends Cubit<UserState> {
       await historyBox.add(newEntry);
 
       // --- Update the Total Balance ---
-      // 'amount' here should already be signed (negative for expense, positive for income/credit)
       final newBalance = successState.currentBalance + amount;
       await balanceBox.put(kbalanceBox, newBalance);
 
       // --- Emit Updated State ---
-      // Create a new list for immutability
       final updatedHistory =
-          List<BalanceEntryModel>.from(successState.history as Iterable)
+          List<BalanceEntryModel>.from(successState.history ?? [])
             ..add(newEntry)
             ..sort((a, b) => a.date.compareTo(b.date));
 
       emit(UserSuccessNew(currentBalance: newBalance, history: updatedHistory));
     } on Exception catch (e) {
-      // If logging fails, re-fetch data or show error
       log('Error logging entry: $e');
       emit(UserFailure('Failed to log entry: ${e.toString()}'));
     }

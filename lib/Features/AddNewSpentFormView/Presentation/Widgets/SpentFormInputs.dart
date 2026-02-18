@@ -35,7 +35,7 @@ class _SpentInputFormState extends State<SpentInputForm> {
       listener: (context, state) {
         if (state is AddNewSpentSuccess) {
           BlocProvider.of<SpentCubit>(context).fetchSpentCards();
-          BlocProvider.of<UserCubit>(context).fetchUserBalance();
+          BlocProvider.of<UserCubit>(context).fetchUserBalanceNew();
           goBackFunction(context);
         }
       },

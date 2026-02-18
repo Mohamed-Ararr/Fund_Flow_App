@@ -111,7 +111,7 @@ class _TransferMoneyBottomSheetState extends State<TransferMoneyBottomSheet> {
                             spent.spentsList?.add(spentDetailModel);
                             spent.save();
                             BlocProvider.of<UserCubit>(context)
-                                .fetchUserBalance();
+                                .fetchUserBalanceNew();
                             BlocProvider.of<SpentCubit>(context)
                                 .fetchSpentCards();
 

@@ -32,7 +32,7 @@ class _FormInputsState extends State<FormInputs> {
       listener: (context, state) {
         if (state is AddNewSavingSuccess) {
           BlocProvider.of<SavingCubit>(context).fetchSavingCards();
-          BlocProvider.of<UserCubit>(context).fetchUserBalance();
+          BlocProvider.of<UserCubit>(context).fetchUserBalanceNew();
           goBackFunction(context);
         }
       },

@@ -316,5 +316,4 @@ class Helper {
       return '$sign$prefix$compact';
     }
   }
-  // compact = "${absValue.toStringAsFixed(2)} ${getCurrencySymbol()}";
 }

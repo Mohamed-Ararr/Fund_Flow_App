@@ -86,7 +86,7 @@ class _AddMoneyToSavingPlansState extends State<AddMoneyToSavingPlans> {
                         "${DateTime.now().day} ${months[DateTime.now().month - 1]} ${DateTime.now().year} - ${DateTime.now().hour}:${DateTime.now().minute}";
                     widget.savingCardModel.save();
                     balanceBox.put(kbalanceBox, currentBalance);
-                    BlocProvider.of<UserCubit>(context).fetchUserBalance();
+                    BlocProvider.of<UserCubit>(context).fetchUserBalanceNew();
                     BlocProvider.of<SavingCubit>(context).fetchSavingCards();
                     sliderSuccessOperation(controller);
                     goBackFunction(context);

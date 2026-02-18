@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fundflow/Data/BLoC%20Manager/Add%20New%20Debt%20Cubit/add_new_debt_cubit.dart';
 import 'package:fundflow/Data/BLoC%20Manager/Add%20New%20Saving%20Cubit/add_new_saving_cubit.dart';
@@ -52,9 +53,11 @@ class AppRouter {
       ),
       GoRoute(
         path: spentHistoryView,
-        builder: ((context, state) => SpentHistoryView(
-              spentCardModel: state.extra as SpentCardModel,
-            )),
+        builder: ((context, state) {
+          final model = state.extra;
+          if (model is! SpentCardModel) return const SizedBox.shrink();
+          return SpentHistoryView(spentCardModel: model);
+        }),
       ),
       GoRoute(
         path: onBoardingView,
@@ -93,7 +96,9 @@ class AppRouter {
       // NEW UPDATES ROUTES
       GoRoute(
         path: logNewEntry,
-        builder: ((context, state) => const LogNewEntryView()),
+        builder: ((context, state) {
+          return const LogNewEntryView();
+        }),
       ),
       GoRoute(
         path: seeAllTransactions,

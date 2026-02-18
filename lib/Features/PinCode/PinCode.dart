@@ -174,6 +174,7 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setBool("biometrics_enabled", false);
+              if (!mounted) return;
               Navigator.pop(context);
               setState(() => isAuthenticated = true);
             },
@@ -183,6 +184,7 @@ class _PinCodeState extends State<PinCode> with SingleTickerProviderStateMixin {
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setBool("biometrics_enabled", true);
+              if (!mounted) return;
               Navigator.pop(context);
               authenticateBiometric();
             },

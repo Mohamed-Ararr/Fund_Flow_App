@@ -43,7 +43,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
-        if (state is UserSuccess) {
+        if (state is UserSuccessNew) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

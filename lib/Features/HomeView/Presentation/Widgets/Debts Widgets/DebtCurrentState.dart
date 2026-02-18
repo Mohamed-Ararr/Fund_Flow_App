@@ -21,10 +21,10 @@ class DebtCurrentState extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Box<double> balanceBox = Hive.box<double>(kbalanceBox);
-              double currentBalance = balanceBox.get(kbalanceBox)!;
-              debtCardModel.isPaid = !debtCardModel.isPaid!;
+              double currentBalance = balanceBox.get(kbalanceBox) ?? 0.0;
+              debtCardModel.isPaid = !(debtCardModel.isPaid ?? false);
               debtCardModel.save();
-              if (debtCardModel.isPaid!) {
+              if (debtCardModel.isPaid ?? false) {
                 if (debtCardModel.isDebt) {
                   currentBalance = currentBalance - debtCardModel.amount;
                   balanceBox.put(kbalanceBox, currentBalance);
@@ -42,7 +42,7 @@ class DebtCurrentState extends StatelessWidget {
                 }
               }
               BlocProvider.of<DebtCubit>(context).fetchDebtCards();
-              BlocProvider.of<UserCubit>(context).fetchUserBalance();
+              BlocProvider.of<UserCubit>(context).fetchUserBalanceNew();
             },
             child: RotatedBox(
               quarterTurns: 3,
@@ -54,7 +54,7 @@ class DebtCurrentState extends StatelessWidget {
                   borderRadius: kBr10,
                 ),
                 child: Text(
-                  debtCardModel.isPaid! ? "Paid" : "Not paid",
+                  (debtCardModel.isPaid ?? false) ? "Paid" : "Not paid",
                   style: const TextStyle(color: Colors.white),
                 ),
               ),

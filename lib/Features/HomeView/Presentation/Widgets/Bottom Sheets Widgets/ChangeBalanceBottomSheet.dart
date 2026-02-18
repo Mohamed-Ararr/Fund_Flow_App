@@ -34,7 +34,7 @@ class _ChangeBalanceBottomSheetState extends State<ChangeBalanceBottomSheet> {
     // THEN ADD THE NEW AMOUNT TO THE OLD BALANCE
     double newBalance = oldBalance + addedAmount;
     box.put(kbalanceBox, newBalance);
-    BlocProvider.of<UserCubit>(context).fetchUserBalance();
+    BlocProvider.of<UserCubit>(context).fetchUserBalanceNew();
   }
 
   @override

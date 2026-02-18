@@ -59,7 +59,6 @@ main() async {
     [DeviceOrientation.portraitUp],
   );
 
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   await AppThemeController.init();
   runApp(
     EasyLocalization(
@@ -80,7 +79,6 @@ class FundFlow extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => UserCubit()..fetchUserBalanceNew(),
-          // create: (context) => UserCubit()..fetchUserBalance(),
         ),
         BlocProvider(
           create: (context) => TransactionCubit()..init(),
